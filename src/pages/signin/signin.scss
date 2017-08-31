@@ -1,0 +1,114 @@
+page-signin {
+  
+  ion-content .scroll-content {
+    background: #333;
+    text-align: center;
+    overflow-y: hidden;
+    
+    .logo {
+      position: absolute;
+      top: 5vh;
+      width: 10vh;
+      left: calc(50vw - 5vh);
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    ion-slides {
+      height: 100vh ! important;
+
+      ion-slide {
+        height: 100%;
+        color: white;
+        background-size: cover;
+        
+        h1, p {
+          z-index: 9;
+          position: relative;
+        }
+
+        .darken {
+          pointer-events: none;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          z-index: 8;
+          
+          background: #666;
+          mix-blend-mode: hard-light;
+        }
+
+      }
+
+      .swiper-pagination {
+        bottom: 21vh ! important;
+      }
+    }
+
+    .gradient {
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      
+      background: linear-gradient(314deg, #0094d4, #b32552, #e5320d, #b32552, #0094d4);
+      background-size: 1000% 1000%;
+      mix-blend-mode: color;
+      
+      -webkit-animation: BackgroundGradient 30s ease infinite;
+      -moz-animation: BackgroundGradient 30s ease infinite;
+      animation: BackgroundGradient 30s ease infinite;
+      
+      @-webkit-keyframes BackgroundGradient {
+          0%{background-position:0% 5%}
+          50%{background-position:100% 96%}
+          100%{background-position:0% 5%}
+      }
+      @-moz-keyframes BackgroundGradient {
+          0%{background-position:0% 5%}
+          50%{background-position:100% 96%}
+          100%{background-position:0% 5%}
+      }
+      @keyframes BackgroundGradient { 
+          0%{background-position:0% 5%}
+          50%{background-position:100% 96%}
+          100%{background-position:0% 5%}
+      }
+      
+    }
+      
+    .login {
+      z-index: 11;
+      left: 0;
+      right: 0;
+      height: 20vh;
+      position: absolute;
+      bottom: 0;
+
+      button {
+        
+      }
+    
+      .terms {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.6);
+    
+        a {
+          color: white;
+          text-decoration: none;
+        }
+      }
+    }
+
+  }
+}

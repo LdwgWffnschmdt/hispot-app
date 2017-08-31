@@ -1,0 +1,11 @@
+<ion-header *ngIf="chat.user">
+
+  <custom-logged-header [title]="chat.user.name" [user]="chat.user"></custom-logged-header>
+
+</ion-header>
+
+<ion-content>
+  
+  <chat [chat]="chat"></chat>
+
+</ion-content>

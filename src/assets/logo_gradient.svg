@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="Ebene_1" viewBox="-79 81 96 96">
+  <style>
+    .st0{fill:none;stroke:url(#SVGID_1_);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+  </style>
+  <linearGradient id="SVGID_1_" x1="-15.1" x2="-48.2" y1="94.9" y2="152.3" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#0094D4"/>
+    <stop offset=".5" stop-color="#B32552"/>
+    <stop offset="1" stop-color="#E5320D"/>
+  </linearGradient>
+  <path d="M-44.8 100.2c-4.3 0-17.4 4-17.2 19.4.2 15.3 27 38.5 31.6 38.4S0 133.5 0 119c-.2-10.6-8-19-17.7-19-8.5 0-19.6 5-19.5 19.5 0 15.3 24.3 34 24.3 34m-5.4-38.7c2 0 3.5 1.6 3.5 3.5 0 2-1.5 3.5-3.4 3.5-2 0-3.5-1.6-3.5-3.5 0-2 1.6-3.5 3.6-3.5z" class="st0"/>
+</svg>

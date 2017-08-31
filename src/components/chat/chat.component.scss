@@ -1,0 +1,22 @@
+chat {
+    
+  height: 100%;
+  background: white;
+  margin-bottom: 9px;
+
+  &::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .messages {
+    padding-bottom: 50px;
+  }
+
+  .messages-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+}

@@ -1,0 +1,13 @@
+
+<img *ngIf="message.sender.id !== authService.currentUser.id" class="profile-pic" [src]="message.sender.pictures[0].url" />
+
+<div class="chat-bubble {{message.sender.id === authService.currentUser.id ? 'mine' : 'other'}}">
+  <div *ngIf="message.type == 'TEXT'" class="message">{{message.content}}</div>
+
+  <img *ngIf="message.type == 'PICTURE'" class="message-content message-content-picture" [src]="message.content">
+
+  <div class="message-detail">
+    <span class="bold">{{ message.sender.name }}</span>,
+    <span>{{ message.timestamp | amDateFormat: 'HH:mm' }}</span>
+  </div>
+</div>

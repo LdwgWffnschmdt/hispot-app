@@ -1,0 +1,57 @@
+<ion-header no-border>
+  <ion-navbar class="navbar-state-0 shadow-background">
+  
+    <button ion-button menuToggle="user-menu">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    
+  </ion-navbar>
+
+  <ion-navbar color="primary" class="navbar-state-1">
+
+    <ion-title *ngIf="user">{{ user.name }}</ion-title>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content fullscreen [ngClass]="{'loading': !user}" #content>
+    
+  <ion-slides class="top-slides" pager centeredSlides slidesPerView="auto">
+    
+    <ion-slide *ngFor="let picture of (user ? user.pictures : placeholder.pictures)">
+      <img class="swiper-lazy" data-src="{{ picture.url }}" />
+    </ion-slide>
+  
+  </ion-slides>
+
+  <h2 margin class="loading-text">{{ user ? user.name : placeholder.name }}<span class="age">, {{ user ? user.age : placeholder.age }}</span></h2>
+  <p margin class="loading-text">{{ user ? user.description : placeholder.description }}</p>
+  <br/>
+
+  <div *ngIf="user && user.id === authService.currentUser.id">
+
+    <button ion-button block (click)="canEdit = !canEdit">Edit</button>
+
+    <form (ngSubmit)="onSubmit($event)" *ngIf="canEdit" #profileForm="ngForm">
+
+      <ion-item>
+        <ion-icon name="person" item-left></ion-icon>
+        <ion-input type="text" placeholder="Name" name="name" [(ngModel)]="user.name" required minlenght="3">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="image" item-left></ion-icon>
+        <input type="file" accept="image/*" (change)="onPhoto($event)">
+      </ion-item>
+
+      <progress-bar *ngIf="uploadProgress" [progress]="uploadProgress"></progress-bar>
+
+      <br>
+      <button ion-button block type="submit" [disabled]="profileForm.form.invalid">Save</button>
+
+    </form>
+
+  </div>
+
+</ion-content>

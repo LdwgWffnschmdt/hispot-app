@@ -1,0 +1,39 @@
+
+<ion-content>
+
+  <img src="assets/logo_white.svg" class="logo"/>
+
+  <ion-slides pager autoplay="5000">
+    <ion-slide padding style="background-image: url(https://unsplash.it/g/500/800?random);">
+      <div class="darken"></div>
+      <h1>Überschrift 1</h1>
+      <p>Hic est illo et et. Illum ut quaerat fugiat voluptatibus quam libero.</p>
+    </ion-slide>
+    <ion-slide padding style="background-image: url(https://unsplash.it/g/500/801?random);">
+      <div class="darken"></div>
+      <h1>Überschrift 2</h1>
+      <p>Hic est illo et et. Illum ut quaerat fugiat voluptatibus quam libero.</p>
+    </ion-slide>
+    <ion-slide padding style="background-image: url(https://unsplash.it/g/500/802?random);">
+      <div class="darken"></div>
+      <h1>Überschrift 3</h1>
+      <p>Hic est illo et et. Illum ut quaerat fugiat voluptatibus quam libero.</p>
+    </ion-slide>
+  </ion-slides>
+  
+  <div class="gradient"></div>
+
+  <div class="login">
+    
+    <ion-spinner name="crescent" *ngIf="loading" color="light" margin-top></ion-spinner>
+
+    <button *ngIf="!loading" margin ion-button color="light" outline textx-center (click)="onSigninWithFacebook()" icon-left>
+      <ion-icon name="logo-facebook"></ion-icon>
+      Login mit Facebook
+    </button>
+
+    <div padding class="terms"><a (click)="skip()" *ngIf="!loading">Skip ></a><br/>By continuing, you agree to our <a href="/">Terms</a> and <a href="/">Privacy Policy</a></div>
+
+  </div>
+
+</ion-content>

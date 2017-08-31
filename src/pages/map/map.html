@@ -1,0 +1,226 @@
+﻿<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="blur-svg">
+  <defs>
+      <filter id="blur-filter">
+          <feGaussianBlur stdDeviation="3"></feGaussianBlur>
+      </filter>
+  </defs>
+</svg>
+
+<ion-header no-border>
+  
+  <ion-navbar transparent #navbar>
+  
+  </ion-navbar>
+    
+  <img src="assets/person_white.svg" (click)="setState(5)" class="profile-button"/>
+
+  <img src="assets/logo_white.svg" (click)="setState(1)" class="hispot-button"/>
+
+  <img src="assets/chat_list_white.svg" (click)="setState(6)" class="chats-button"/>
+
+</ion-header>
+
+<ion-content fullscreen #feed>
+
+  <div class="login">
+
+    <ion-slides pager autoplay="5000">
+      <ion-slide padding>
+      <!-- <ion-slide padding style="background-image: url(https://unsplash.it/g/500/800?random);"> -->
+        <div class="darken"></div>
+        <h1>Überschrift 1</h1>
+        <p>Hic est illo et et. Illum ut quaerat fugiat voluptatibus quam libero.</p>
+      </ion-slide>
+      <ion-slide padding>
+      <!-- <ion-slide padding style="background-image: url(https://unsplash.it/g/500/801?random);"> -->
+        <div class="darken"></div>
+        <h1>Überschrift 2</h1>
+        <p>Hic est illo et et. Illum ut quaerat fugiat voluptatibus quam libero.</p>
+      </ion-slide>
+      <ion-slide padding>
+      <!-- <ion-slide padding style="background-image: url(https://unsplash.it/g/500/802?random);"> -->
+        <div class="darken"></div>
+        <h1>Überschrift 3</h1>
+        <p>Hic est illo et et. Illum ut quaerat fugiat voluptatibus quam libero.</p>
+      </ion-slide>
+    </ion-slides>
+    
+    <div class="login-footer">
+      
+      <ion-spinner name="crescent" *ngIf="loggingIn" color="light" margin-top></ion-spinner>
+
+      <button *ngIf="!loggingIn" margin ion-button color="light" outline textx-center (click)="onSigninWithFacebook()" icon-left>
+        <ion-icon name="logo-facebook"></ion-icon>
+        Login mit Facebook
+      </button>
+
+      <div padding class="terms"><a (click)="skip()" *ngIf="!loggingIn">Skip ></a><br/>By continuing, you agree to our <a href="/">Terms</a> and <a href="/">Privacy Policy</a></div>
+
+    </div>
+
+  </div>
+
+  <div class="location-header main-pane">
+    <div #map id="map" (mousedown)="setState(2)"></div>
+
+    
+
+    <div class="location">
+      <ion-slides *ngIf="currentLocation" class="top-slides" pager centeredSlides slidesPerView="auto">
+          
+        <ion-slide *ngFor="let picture of currentLocation.pictures">
+          <img class="swiper-lazy" data-src="{{ picture.url }}" />
+        </ion-slide>
+      
+      </ion-slides>
+
+      <div class="gradient"></div>
+      <ion-title *ngIf="currentLocation" ion-text (click)="setState(3)">{{ currentLocation.name }}<ion-icon name="arrow-forward"></ion-icon></ion-title>
+
+
+      <div padding class="title-panel" margin-bottom *ngIf="currentLocation">
+        
+        <h2 class="loading-text">{{ currentLocation.name }}</h2>
+        <p class="loading-text">{{ currentLocation.description }}</p>
+        
+      </div>
+      
+<!--       
+      <ion-scroll scrollX *ngIf="currentLocation" class="people">
+        <isotope>
+          <isotope-brick>
+            <button *ngFor="let user of currentLocation.visitors" class="image-button" (click)="openProfile(user)">
+              <img [src]="user.pictures[0].url" />
+            </button>
+          </isotope-brick>
+        </isotope>
+      </ion-scroll>
+       -->
+       <ion-scroll scrollX *ngIf="currentLocation" class="people">
+        <button *ngFor="let user of currentLocation.visitors" class="image-button" (click)="openProfile(user)">
+          <img [src]="user.pictures[0].url" />
+        </button>
+      </ion-scroll> 
+    </div>
+
+  </div>
+
+  <div class="feed main-pane" *ngIf="currentLocation" (swipeleft)="setState(6)" (swiperight)="setState(5)">
+    
+    <ion-card>
+      <ion-item no-lines>
+        <ion-avatar item-start>
+          <img [src]="authService.currentUser.pictures[0].url">
+        </ion-avatar>
+        <ion-input type="text" (keyup.enter)="sendMessage(newMessage); newMessage=''" placeholder="Message..." [(ngModel)]="newMessage"></ion-input>
+        <button ion-button item-right (click)="sendMessage(newMessage); newMessage=''">
+          <ion-icon name="send"></ion-icon>
+        </button>
+      </ion-item>
+    </ion-card>
+    
+    <div class="messages">
+      
+      <ion-card *ngFor="let message of currentLocation.feed.messages">
+          
+        <ion-item>
+          <ion-avatar item-start>
+            <img *ngIf="message.sender.id !== authService.currentUser.id" [src]="message.sender.pictures[0].url">
+          </ion-avatar>
+          <h2>{{ message.sender.name }}</h2>
+          <p>{{ message.timestamp | amDateFormat: 'HH:mm' }}</p>
+        </ion-item>
+      
+        <img *ngIf="message.type == 'PICTURE'" [src]="message.content"> 
+      
+        <ion-card-content *ngIf="message.type == 'TEXT'">
+          <p>{{ message.content }}</p>
+        </ion-card-content>
+      
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-left clear small>
+              <ion-icon name="thumbs-up"></ion-icon>
+              <div>12 Likes</div>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-left clear small>
+              <ion-icon name="text"></ion-icon>
+              <div>4 Comments</div>
+            </button>
+          </ion-col>
+          <ion-col center text-center>
+            <ion-note>
+              11h ago
+            </ion-note>
+          </ion-col>
+        </ion-row>
+      
+      </ion-card>
+
+    </div>
+    
+  </div>
+
+  <section class="profile-pane" (swipeleft)="setState(1)">
+
+    <div class="profile-section" *ngIf="authService.currentUser" (click)="openOwnProfile()">
+      <img [src]="authService.currentUser.pictures[0].url" class="avatar">
+      <h2>{{ authService.currentUser.name }}</h2>
+    </div>
+    
+    <ion-list no-lines>
+      <ion-item>
+        <ion-icon name="settings" item-start></ion-icon>
+        Einstellungen
+      </ion-item>
+      <ion-item>
+        <ion-icon name="information-circle" item-start></ion-icon>
+        Informationen
+      </ion-item>
+      <ion-item>
+        <ion-icon name="log-out" item-start></ion-icon>
+        Abmelden
+      </ion-item>
+    </ion-list>
+
+  </section>
+
+  <section class="chat-list-pane" (swiperight)="setState(1)">
+      
+    <div class="chat-list-header"></div>
+
+    <ion-list *ngIf="authService.currentUser" (swiperight)="setState(1)">
+      <button ion-item *ngFor="let chat of authService.currentUser.chats" (click)="openChat(chat)" (swiperight)="setState(1)">
+        <ion-avatar item-left>
+          <img [src]="chat.user.pictures[0].url || 'assets/images/no-photo.jpg'">
+        </ion-avatar>
+        <h2>{{ chat.user.name }}</h2>
+        <p *ngIf="chat.messages; else customMessage">{{ chat.messages[0].content }}</p>
+        <ng-template #customMessage>
+          <p>No messages</p>
+        </ng-template>
+        <ion-note item-end>
+          {{ chat.messages[0].timestamp | date:'HH:mm' }}
+        </ion-note>
+      </button>
+    </ion-list>
+    
+  </section>
+
+</ion-content>
+
+<div class="error">
+
+  <div class="error-connection">
+    <ion-icon isActive="false" name="alert"></ion-icon>
+    <h4 ion-text>Du musst mit dem Internet verbunden sein</h4>
+  </div>
+
+  <div class="error-location">
+    <ion-icon isActive="false" name="alert"></ion-icon>
+    <h4 ion-text>Hi!Spot benötigt deine GPS-Position</h4>
+  </div>
+
+</div>

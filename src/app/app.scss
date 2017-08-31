@@ -14,3 +14,188 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+.blur-svg {
+  display: none;
+}
+
+.blur {
+  filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='3');
+  filter: url(#blur-filter);
+  filter: blur(3px);
+}
+
+ion-navbar.shadow-background {
+  .bar-button,
+  .bar-buttons,
+  .toolbar-title {
+    color: #fff;
+  }
+  
+  .toolbar-background {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%,rgba(0,0,0,0.15) 50%,rgba(0,0,0,0) 100%);
+  }  
+}
+
+.title-panel {
+  background: #fff;
+  box-shadow: rgba(0,0,0,0.75) 0 0 4px;
+
+  p {
+    padding: 0;
+    margin: 0;
+  }
+
+}
+
+.swiper-pagination {
+  .swiper-pagination-bullet {
+    opacity: 0.5;
+    background: white;
+  }
+
+  .swiper-pagination-bullet-active {
+    opacity: 1;
+    background: white;
+  }
+}
+
+ion-slides.top-slides {
+  height: 38.2vh;
+  min-width: 100%;
+  background: #666;
+  box-shadow: rgba(0,0,0,0.75) 0 0 4px;
+  overflow: hidden;
+
+  .slide-zoom {
+    line-height: 0;
+  }
+  
+  .swiper-slide {
+    height: 38.2vh;
+    overflow-y: hidden;
+
+    img{
+      min-height: 38.2vh;
+      min-width: 100%;
+    }
+  }
+}
+
+.people {
+  height: 120px;
+  width: auto;
+  
+  .scroll-zoom-wrapper {
+    transition: height $animation-stack;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+  }
+
+  .image-button {
+    margin: 0 10px 10px 0;
+    padding: 0;
+    border-radius: 5px;
+    height: 33px;
+    width: 33px;
+    overflow: hidden;
+    position: relative;
+    display: block;
+    transition: all $animation-stack;
+    
+    // &::after {
+    //   clear: both;
+    //   content: "";
+    //   display: table;
+    // }
+
+    span {
+      position: absolute;
+      color: white;
+      background: black;
+      left: 40%;
+      top: 40%;
+    }
+
+    img {
+      width: 33px;
+      height: 33px;
+      border-radius: 5px;
+      transition: all $animation-stack;
+    }
+  }
+
+  .image-button:first-of-type {
+    margin-left: 20px;
+    height: 120px;
+    width: 120px;
+
+    img {
+      width: 120px;
+      height: 120px;
+    }
+  }
+
+  .image-button:nth-child(2),
+  .image-button:nth-child(3),
+  .image-button:nth-child(4),
+  .image-button:nth-child(5) {
+    height: 55px;
+    width: 55px;
+
+    img {
+      width: 55px;
+      height: 55px
+    }
+  }
+}
+
+
+/* Placeholder animations */
+
+@keyframes placeHolderShimmer {
+  0%{ background-position: -468px 0; }
+  100%{ background-position: 468px 0; }
+}
+
+.loading {
+  position: relative;
+  pointer-events: none;
+
+  .loading-text,
+  .loading-image {
+    background: #ddd;
+    color: #ddd;
+  }
+
+  h2.loading-text {
+    display: table;
+  }
+
+  p.loading-text {
+    display: initial;
+  }
+
+  &:before {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    animation-duration: 2.5s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-name: placeHolderShimmer;
+    background: #f6f7f8;
+    background: linear-gradient(to right, #ddd 8%, #eee 18%, #ddd 33%);
+    background-size: 800px 104px;
+    mix-blend-mode: lighten;
+    z-index: 9;
+  }
+}

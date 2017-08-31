@@ -1,0 +1,53 @@
+page-user-profile {
+  
+  ion-navbar {
+    will-change: opacity;
+    transition: opacity $animation-stack;
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    pointer-events: none;
+  }
+
+  ion-navbar.navbar-state-1 {
+    .back-button {
+      display: inline-block;
+    }
+  }
+
+  ion-content > .scroll-content {
+    padding-top: 0 ! important;
+  }
+
+  ion-slides.top-slides {
+    height: 61.8vh;
+
+    .swiper-slide {
+      height: 61.8vh;
+
+      img{
+        min-height: 61.8vh;
+      }
+    }
+  }
+
+  .age {
+    opacity: 0.4;
+  }
+}
+
+/* DEFAULT STATE */
+page-user-profile.state-0 {
+  ion-navbar.navbar-state-0 {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+/* IMAGES ARE HIDDEN */
+page-user-profile.state-1 {
+  ion-navbar.navbar-state-1 {
+    opacity: 1;
+    pointer-events: all;
+  }
+}

@@ -1,0 +1,22 @@
+<ion-header>
+  
+  <custom-logged-header [title]="view | capitalize:true"></custom-logged-header>
+
+</ion-header>
+
+<ion-content>
+
+    <ion-list>
+      <button ion-item *ngFor="let chat of chats | async" (click)="onChatOpen(chat)">
+        <ion-avatar item-left>
+          <img [src]="chat.user.pictures[0].url || 'assets/images/no-photo.jpg'">
+        </ion-avatar>
+        <h2>{{ chat.user.name }}</h2>
+        <p *ngIf="chat.messages; else customMessage">{{ chat.messages[0].timestamp | date:'dd/MM/y H:mm' }} - {{ chat.messages[0] }}</p>
+        <ng-template #customMessage>
+          <p>No messages</p>
+        </ng-template>
+      </button>
+    </ion-list>
+
+</ion-content>
