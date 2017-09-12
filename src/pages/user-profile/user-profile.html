@@ -28,6 +28,10 @@
   <p margin class="loading-text">{{ user ? user.description : placeholder.description }}</p>
   <br/>
 
+  <ion-fab right bottom *ngIf="user && user.id != authService.currentUser.id">
+    <button ion-fab color="primary" (click)="startChat()"><ion-icon name="chatboxes"></ion-icon></button>
+  </ion-fab>
+
   <div *ngIf="user && user.id === authService.currentUser.id">
 
     <button ion-button block (click)="canEdit = !canEdit">Edit</button>

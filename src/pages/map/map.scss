@@ -51,11 +51,13 @@ page-map {
     background: white;
     
     will-change: transform;
+    transform: translateZ(0);
     transition: transform $animation-stack;
   }
 
   .login {
     will-change: transform;
+    transform: translateZ(0);
     transition: transform $animation-stack;
     position: fixed;
     top: 0;
@@ -131,7 +133,7 @@ page-map {
     z-index: 2 ! important;
     width: 100%;
     will-change: transform;
-    transform: translateY(0px);
+    transform: translateY(0px) translateZ(0);
     top: 0;
     transition: transform $animation-stack;
     position: fixed;
@@ -144,6 +146,7 @@ page-map {
       height: 110vh;
       transition: transform $animation-stack, height $animation-stack;
       will-change: transform;
+      transform: translateZ(0);
       
       &::after,
       &::before {
@@ -159,39 +162,11 @@ page-map {
         z-index: 10;
       }
       
-      &::before {
-        background: radial-gradient(circle, rgba(0,0,0,0) 0%, color($colors, primary) 85%);
-        opacity: 0;
-      }
-      
-      // &::after {
-      //   background: linear-gradient(314deg, color($colors, HiSpotBlau),
-      //                                       color($colors, HiSpotFlieder),
-      //                                       color($colors, HiSpotRot),
-      //                                       color($colors, HiSpotFlieder),
-      //                                       color($colors, HiSpotBlau));
-      //   background-size: 1000% 1000%;
-      //   mix-blend-mode: color;
-        
-      //   animation: BackgroundGradient 30s ease infinite;
-        
-      //   @-webkit-keyframes BackgroundGradient {
-      //       0%{background-position:0% 5%}
-      //       50%{background-position:100% 96%}
-      //       100%{background-position:0% 5%}
-      //   }
-      //   @-moz-keyframes BackgroundGradient {
-      //       0%{background-position:0% 5%}
-      //       50%{background-position:100% 96%}
-      //       100%{background-position:0% 5%}
-      //   }
-      //   @keyframes BackgroundGradient { 
-      //       0%{background-position:0% 5%}
-      //       50%{background-position:100% 96%}
-      //       100%{background-position:0% 5%}
-      //   }
+      // &::before {
+      //   background: radial-gradient(circle, rgba(0,0,0,0) 0%, color($colors, primary) 85%);
+      //   opacity: 0;
       // }
-
+      
       & > div {
         top: auto ! important;
         height: 100vh ! important;
@@ -236,6 +211,7 @@ page-map {
         top: 0;
         bottom: 0;
         opacity: 0.8;
+        // background: color($colors, secondary);
         background: linear-gradient(to bottom, color($colors, secondary),
                                                 color($colors, secondaryDark));
         // background: linear-gradient(to bottom, rgba(255,255,255,0.9) 0%,rgba(255,255,255,0.8) 100%);
@@ -287,6 +263,7 @@ page-map {
     overflow: hidden;
 
     .profile-section {
+      // background: color($colors, secondary);
       background: radial-gradient(circle, color($colors, secondary),
                                           color($colors, secondaryDark));
       box-shadow: rgba(0,0,0,0.5) 0 0 100px;
@@ -326,6 +303,7 @@ page-map {
     .chat-list-header {
       width: 100%;
       height: $navigation-button-size + $navigation-button-margin * 2;
+      // background: #d6d6d6;
       background: radial-gradient(circle,#d6d6d6, #ccc 50%);
       box-shadow: rgba(0, 0, 0, 0.25) 0 0 20px;
       // background: radial-gradient(circle, color($colors, secondary),
@@ -380,6 +358,37 @@ page-map.state-0 {
       pointer-events: none;
     }
   }
+
+  #map {
+    &::after {
+      background: linear-gradient(314deg, color($colors, HiSpotBlau),
+                                          color($colors, HiSpotFlieder),
+                                          color($colors, HiSpotRot),
+                                          color($colors, HiSpotFlieder),
+                                          color($colors, HiSpotBlau));
+      background-size: 1000% 1000%;
+      mix-blend-mode: color;
+      
+      animation: BackgroundGradient 30s ease infinite;
+      
+      @-webkit-keyframes BackgroundGradient {
+          0%{background-position:0% 5%}
+          50%{background-position:100% 96%}
+          100%{background-position:0% 5%}
+      }
+      @-moz-keyframes BackgroundGradient {
+          0%{background-position:0% 5%}
+          50%{background-position:100% 96%}
+          100%{background-position:0% 5%}
+      }
+      @keyframes BackgroundGradient { 
+          0%{background-position:0% 5%}
+          50%{background-position:100% 96%}
+          100%{background-position:0% 5%}
+      }
+    }
+
+  }
 }
 
 /* DEFAULT STATE */
@@ -391,11 +400,11 @@ page-map.state-1 {
       transform: scale($navigation-button-scale) translateX(0) ! important;
     } 
   }
-  
-    .login {
-      transform: translateY(-110vh);
-    }
 
+  .login {
+    transform: translateY(-110vh);
+  }
+ 
   .location-header {
 
     #map {
@@ -523,23 +532,23 @@ page-map.state-4{
     }
 
     .location {
-      height: 90px;
+      height: 180px;
 
       .people {
-        .scroll-zoom-wrapper {
-          height: 50px;
-        }
+        // .scroll-zoom-wrapper {
+        //   height: 50px;
+        // }
 
-        .image-button {
-          height: 33px;
-          width: 33px;
+        // .image-button {
+        //   height: 33px;
+        //   width: 33px;
 
-          img {
-            width: 33px;
-            height: 33px;
-            border-radius: 5px;
-          }
-        }
+        //   img {
+        //     width: 33px;
+        //     height: 33px;
+        //     border-radius: 5px;
+        //   }
+        // }
       }
     }
   }

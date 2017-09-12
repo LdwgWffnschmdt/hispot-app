@@ -123,7 +123,7 @@
       
       <ion-card *ngFor="let message of currentLocation.feed.messages">
           
-        <ion-item>
+        <ion-item (click)="openProfile(message.sender)">
           <ion-avatar item-start>
             <img *ngIf="message.sender.id !== authService.currentUser.id" [src]="message.sender.pictures[0].url">
           </ion-avatar>
@@ -137,7 +137,7 @@
           <p>{{ message.content }}</p>
         </ion-card-content>
       
-        <ion-row>
+        <!-- <ion-row>
           <ion-col>
             <button ion-button icon-left clear small>
               <ion-icon name="thumbs-up"></ion-icon>
@@ -150,12 +150,7 @@
               <div>4 Comments</div>
             </button>
           </ion-col>
-          <ion-col center text-center>
-            <ion-note>
-              11h ago
-            </ion-note>
-          </ion-col>
-        </ion-row>
+        </ion-row> -->
       
       </ion-card>
 

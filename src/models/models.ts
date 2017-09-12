@@ -16,19 +16,23 @@ export interface User {
   chats: [Chat];
 }
 
-export interface Chat {
+export class Chat {
   id: string;
   user: User;
   location: Location;
   messages: [Message];
+
+  constructor() {};
 }
 
-export interface Message {
+export class Message {
   id: string;
   content: string;
   type: MessageType;
   sender: User;
   timestamp: Date;
+
+  constructor() {}
 }
 
 export interface Location {

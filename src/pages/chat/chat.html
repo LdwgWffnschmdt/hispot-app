@@ -6,6 +6,38 @@
 
 <ion-content>
   
-  <chat [chat]="chat"></chat>
+  <div class="messages">
+    
+    <div *ngFor="let message of chat.messages; let i = index" class="message-box {{message.sender.id === authService.currentUser.id ? 'mine' : 'other'}} {{ message.type }} {{ chat.messages[i+1] ? chat.messages[i+1].sender.id === message.sender.id ? '' : 'end' : 'end' }}">
+
+      <img *ngIf="message.sender.id !== authService.currentUser.id" class="profile-pic" [src]="message.sender.pictures[0].url" />
+      
+      <div class="chat-bubble">
+        <div *ngIf="message.type == 'TEXT'" class="message">{{message.content}}</div>
+      
+        <img *ngIf="message.type == 'PICTURE'" class="message-content message-content-picture" [src]="message.content">
+      </div>
+      
+      <div class="message-detail">
+        <span>{{ message.timestamp | amDateFormat: 'HH:mm' }}</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="messages-footer">
+
+    <ion-toolbar>
+      <ion-item no-lines>
+        <ion-input type="text" (keyup.enter)="sendMessage()" placeholder="Message..." [(ngModel)]="newMessage"></ion-input>
+        <button ion-button item-right (click)="sendMessage()">
+          <ion-icon name="send"></ion-icon>
+        </button>
+      </ion-item>
+    </ion-toolbar>
+
+  </div>
+
 
 </ion-content>

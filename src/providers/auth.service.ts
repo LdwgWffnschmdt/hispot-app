@@ -27,6 +27,7 @@ const GetUserFromIdQuery = gql`
       chats {
         id
         user {
+          id
           name
           pictures {
             url
@@ -115,7 +116,7 @@ export class AuthService extends BaseService {
 
   fakeLogin(): Promise<boolean> {
     console.log("Fake login");
-    return this.getUserFromFacebookID("100000233467836")
+    return this.getUserFromID("0")
       .then((_user: User) => {
         console.log("User", _user);
 
@@ -165,6 +166,20 @@ export class AuthService extends BaseService {
     }
   }
 
+  getUserFromID(id: string): Promise<User> {
+    console.log("Get user from Id", id);
+
+    return new Promise<User>((resolve, reject) =>
+      this.apollo.watchQuery<QueryResponse>({
+        query: GetUserFromIdQuery,
+        variables: {
+          id: id
+        }
+      }).subscribe(({data}) => {
+        resolve(data.user || null);
+      }));
+  }
+
   getUserFromFacebookID(id: string): Promise<User> {
     console.log("Get user from FB Id", id);
 
@@ -188,22 +203,25 @@ export class AuthService extends BaseService {
   // This can definetely be improved (token expiration or something)
   get authenticated(): Promise<boolean> {
     console.log("Authenticated?");
-    return new Promise((resolve, reject) => {
-      if (this.fbToken != null && this.currentUser != null && this.currentUser.fbId) {
-        
-        this.getUserFromFacebookID(this.currentUser.fbId)
-          .then((_user: User) => {
-            // Save the resulted User in local storage
-            // this.currentUser = _user;
 
-            (_user != null) ? resolve(true) : reject(false);
-          })
-          .catch(this.handlePromiseError);
-      }
-      else {
-        reject(false);
-      }
-    });
+    return new Promise((resolve, reject) => { resolve(true) });
+
+    // return new Promise((resolve, reject) => {
+    //   if (this.fbToken != null && this.currentUser != null && this.currentUser.fbId) {
+        
+    //     this.getUserFromFacebookID(this.currentUser.fbId)
+    //       .then((_user: User) => {
+    //         // Save the resulted User in local storage
+    //         // this.currentUser = _user;
+
+    //         (_user != null) ? resolve(true) : reject(false);
+    //       })
+    //       .catch(this.handlePromiseError);
+    //   }
+    //   else {
+    //     reject(false);
+    //   }
+    // });
   }
 
   get fbToken(): string {

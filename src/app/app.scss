@@ -105,7 +105,7 @@ ion-slides.top-slides {
     overflow: hidden;
     position: relative;
     display: block;
-    transition: all $animation-stack;
+    transition: transform $animation-stack;
     
     // &::after {
     //   clear: both;

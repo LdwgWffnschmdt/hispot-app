@@ -1,3 +1,4 @@
+import { Chat, Message } from './../../models/models';
 import { Component, ViewChild, ElementRef, Renderer } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
@@ -6,6 +7,7 @@ import { User } from "../../models/models";
 
 import { Apollo, ApolloQueryObservable } from 'apollo-angular';
 import gql from 'graphql-tag';
+import { ChatPage } from "../chat/chat";
 
 const GetUserQuery = gql`
 query user($id: ID) {
@@ -102,16 +104,32 @@ export class UserProfilePage {
   }
 
   getUserInformation(userId: string): Promise<User> {
+    console.log("Get user Information for ID", userId);
     return new Promise<User>((resolve, reject) =>
       this.apollo.watchQuery<GetUserQueryResponse>({
         query: GetUserQuery,
         variables: {
-          userId: userId
+          id: userId
         }
       }).subscribe(({data}) => {
+        console.log("Got user data for", data.user.id);
         if (data.user) resolve(data.user);
       })
     );
+  }
+
+  startChat(): void {
+    var chat = this.authService.currentUser.chats.find((value) => value.user.id == this.user.id);
+
+    if (!chat) {
+      var chat = new Chat();
+
+      chat.user = this.user;
+      chat.messages = <[Message]>[];
+    }
+    
+    this.navCtrl.push(ChatPage, { chat: chat });
+
   }
 
   // onSubmit(event: Event): void {

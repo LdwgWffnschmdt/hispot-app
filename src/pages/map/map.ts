@@ -35,6 +35,7 @@ const GetLocationQuery = gql`
       feed {
         id
         user {
+          id
           name
           pictures {
             url
@@ -170,7 +171,7 @@ export class MapPage {
   }
 
   setState(state: number): void {
-    console.log("Go to state", state);
+    // alert("Go to state " + state);
     if (this.state == state) return;
 
     this.renderer.setElementClass(this.element.nativeElement, "state-" + this.state, false);

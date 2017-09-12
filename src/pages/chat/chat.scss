@@ -1,3 +1,188 @@
 page-chat {
+  background: white;
+
+  &::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .messages {
+    padding-bottom: 50px;
+
+    .message-box {
+      background: white;
+      position: relative;
+      display: block;
+      clear: both;
+      overflow: auto;
+      margin-top: 2px;
+      
+      transform: scale(0);
+      transform-origin: 0 0;
+      animation: bounce 500ms linear both;
+    
+      &:last-of-type {
+        margin-bottom: 10px;
+      }
+    
+      img.profile-pic {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 0;
+        left: 10px;
+        display: none;
+      }
+    
+      .chat-bubble {
+        display: inline-block;
+        position: relative;
+        margin: 0;
+        max-width: 70%;
+        overflow: hidden;
+        border-radius: 20px;
+      }
+      
+      .message-detail {
+        white-space: nowrap;
+        font-size: 12px;
+        opacity: 0.7;
+        display: none;
+        margin-top: 2px;
+      }
+
+      &.TEXT {
+  
+        .message {
+          margin: 10px 18px;
+          font-size: 14px;
+        }
+  
+      }
+  
+      &.PICTURE {
+        .chat-bubble {
+          line-height: 0;
+          background: transparent ! important;
+        }
+  
+        img {
+          max-width:100%;
+          max-height:300px;
+        }
+        
+        // .message-detail {
+        //   position: absolute;
+        //   bottom: 6px;
+        //   color: #fff;
+        //   text-shadow: rgba(0,0,0,0.7) 0px 1px 2px;
+        //   opacity: 1;
+        // }
+      }
+      
+      &.other {
+        .chat-bubble {
+          background: linear-gradient(to right, color($colors, primaryLight, base) 0%, color($colors, primary, base) 100%);
+          color: #fff;
+          margin-left: 55px;
+          float: left;
+          border-bottom-left-radius: 5px;
+        }
+        
+        .message-detail {
+          clear: both;
+          margin-left: 65px;
+          float: left;
+        }
+      }
+  
+      &.mine {
+        .chat-bubble {
+          background: color($colors, light, base);
+          color: color($colors, dark, base);
+          margin-right: 10px;
+          float: right;
+          border-bottom-right-radius: 5px;
+        }
+
+        .message-detail {
+          clear: both;
+          margin-right: 20px;
+          float: right;
+        }
+      }
+
+    }
+    
+    .other + .other {
+      .chat-bubble {
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+      }
+    }
+    
+    .mine + .mine {
+      .chat-bubble {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+    }
+    
+    .end {
+      margin-bottom: 10px;
+      
+      &.mine {
+        .chat-bubble {
+          border-bottom-right-radius: 20px;
+        }
+
+        .message-detail {
+          display: block;
+        }
+      }
+
+      &.other {
+        .chat-bubble {
+          border-bottom-left-radius: 20px;
+        }
+  
+        .message-detail {
+          display: block;
+        }
+  
+        img.profile-pic {
+          display: block;
+        }
+      }
+    }
+
+    /*--------------------
+    Bounce
+    --------------------*/
+    @keyframes bounce { 
+      0% { transform: matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      4.7% { transform: matrix3d(0.45, 0, 0, 0, 0, 0.45, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      9.41% { transform: matrix3d(0.883, 0, 0, 0, 0, 0.883, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      14.11% { transform: matrix3d(1.141, 0, 0, 0, 0, 1.141, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      18.72% { transform: matrix3d(1.212, 0, 0, 0, 0, 1.212, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      24.32% { transform: matrix3d(1.151, 0, 0, 0, 0, 1.151, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      29.93% { transform: matrix3d(1.048, 0, 0, 0, 0, 1.048, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      35.54% { transform: matrix3d(0.979, 0, 0, 0, 0, 0.979, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      41.04% { transform: matrix3d(0.961, 0, 0, 0, 0, 0.961, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      52.15% { transform: matrix3d(0.991, 0, 0, 0, 0, 0.991, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      63.26% { transform: matrix3d(1.007, 0, 0, 0, 0, 1.007, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      85.49% { transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+      100% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); } 
+    }
+    
+  }
+
+  .messages-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
 
 }

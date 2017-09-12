@@ -20,7 +20,6 @@ import { ParallaxHeader } from '../directives/parallax-header/parallax-header';
 import { CapitalizePipe } from './../pipes/capitalize.pipe';
 
 import { CustomLoggedHeaderComponent } from './../components/custom-logged-header/custom-logged-header.component';
-import { ChatComponent } from './../components/chat/chat.component';
 import { MessageBoxComponent } from './../components/message-box/message-box.component';
 import { ProgressBarComponent } from './../components/progress-bar/progress-bar.component';
 import { UserInfoComponent } from './../components/user-info/user-info.component';
@@ -40,8 +39,8 @@ import { ApolloModule } from 'apollo-angular';
 import { MyApp } from './app.component';
 import { ShrinkingSegmentHeader } from '../components/shrinking-segment-header/shrinking-segment-header';
 
-const networkInterface = createNetworkInterface({ uri: 'https://hispot-server-eogmodtmyh.now.sh/graphql' });
-// const networkInterface = createNetworkInterface({ uri: 'http://localhost:3000/graphql' });
+// const networkInterface = createNetworkInterface({ uri: 'https://hispot-server-hfdmrqntkh.now.sh/graphql' });
+const networkInterface = createNetworkInterface({ uri: 'http://localhost:3000/graphql' });
 
 networkInterface.use([{
   applyMiddleware(req, next) {
@@ -55,6 +54,7 @@ networkInterface.use([{
 }]);
 
 const client = new ApolloClient({
+  dataIdFromObject: (o: any) => o.id,
   networkInterface,
 });
 
@@ -68,7 +68,6 @@ export function provideClient(): ApolloClient {
     ParallaxHeader,
     CapitalizePipe,
     CustomLoggedHeaderComponent,
-    ChatComponent,
     MessageBoxComponent,
     ProgressBarComponent,
     UserInfoComponent,
