@@ -1,14 +1,16 @@
-﻿import { LocationPage } from './../location/location';
+﻿import { StatusPage } from './../status/status';
+import { LocationSwitcherComponent } from './../../components/location-switcher/location-switcher';
+import { Location } from './../../models/models';
+import { LocationPage } from './../location/location';
 import { UserProfilePage } from './../user-profile/user-profile';
 import { Component, ViewChild, ElementRef, NgZone, Renderer } from '@angular/core';
-import { NavController, MenuController, Navbar, AlertController } from 'ionic-angular';
+import { NavController, MenuController, Navbar, AlertController, PopoverController, ModalController, Content } from 'ionic-angular';
 import { Network } from '@ionic-native/network';
 import { Geolocation } from '@ionic-native/geolocation';
 
 import { ChatListPage } from '../chat-list/chat-list';
 
 declare var google;
-declare var Isotope;
 
 import { Apollo, ApolloQueryObservable } from 'apollo-angular';
 import gql from 'graphql-tag';
@@ -21,6 +23,7 @@ const GetLocationQuery = gql`
   query location($googlePlaceId: String) {
     location(googlePlaceId: $googlePlaceId) {
       id
+      googlePlaceId
       name
       description
       pictures {
@@ -73,16 +76,17 @@ export class MapPage {
   @ViewChild('map') mapElement: ElementRef;
   @ViewChild('feed') feed: any;
 
+  @ViewChild(Content) content: Content;
+  
   state: number = -1;
   offset: number = 150;
   
   zone: any;
   map: any;
 
-  loggingIn: boolean = false;
+  loading: boolean = false;
 
   currentLocation: Location;
-  currentLocationLoading: boolean;
 
   mapInitialised: boolean = false;
   onDevice: boolean;
@@ -91,12 +95,20 @@ export class MapPage {
   locationAccuracyCircle: any;
   locationWatching: boolean = false;
   
+  closeLocations: [Location] = [
+    new Location("ChIJPdTV4C5QqEcRYuaEK_x3_h8", "Zyankali Bar"),
+    new Location("ChIJ528Y3ddPqEcRpJK-keQ4D0A", "Junction Bar"),
+    new Location("ChIJvXT5xddPqEcRIwILgO_CnC0", "Mokkabar")
+  ]
+
   constructor(
     public alertCtrl: AlertController,
     public element: ElementRef,
     public authService: AuthService,
     public navCtrl: NavController,
     public menuCtrl: MenuController,
+    public popoverCtrl: PopoverController,
+    public modalCtrl: ModalController,
     public geolocation: Geolocation,
     public network: Network,
     private apollo: Apollo,
@@ -171,16 +183,17 @@ export class MapPage {
   }
 
   setState(state: number): void {
-    // alert("Go to state " + state);
-    if (this.state == state) return;
+    if (this.state == state || (state != 0 && !this.currentLocation)) return;
+    console.log("Go to state " + state);
+
+    if (this.state == 2) {
+      this.map.setCenter(this.locationMarker.getPosition());
+      this.map.setZoom(19);
+    }
 
     this.renderer.setElementClass(this.element.nativeElement, "state-" + this.state, false);
     this.state = state;
     this.renderer.setElementClass(this.element.nativeElement, "state-" + this.state, true);
-
-    // if (state == 1) {
-    //   this.map.
-    // }
   }
 
   ////////////////////////////////////////////// LOGIN
@@ -193,10 +206,11 @@ export class MapPage {
       .then((isLogged: boolean) => {
 
         if (isLogged) {
-          this.getPlaceInformation("ChIJyaf_HylQqEcRBNsfZFxr-IQ")
+          this.getPlaceInformation(this.closeLocations[0].googlePlaceId)
             .then((response) => {
               this.currentLocation = response
               this.setState(1);
+              this.hideLoading();
             });
 
           // this.navCtrl.setRoot(MapPage);
@@ -219,10 +233,11 @@ export class MapPage {
       .then((isLogged: boolean) => {
 
         if (isLogged) {
-          this.getPlaceInformation("ChIJyaf_HylQqEcRBNsfZFxr-IQ")
+          this.getPlaceInformation(this.closeLocations[0].googlePlaceId)
             .then((response) => {
               this.currentLocation = response
               this.setState(1);
+              this.hideLoading();
             });
 
           // this.navCtrl.setRoot(MapPage);
@@ -237,11 +252,11 @@ export class MapPage {
   }
 
   private showLoading(): void {
-    this.loggingIn = true;
+    this.loading = true;
   }
 
   private hideLoading(): void {
-    this.loggingIn = false;
+    this.loading = false;
   }
 
   private showAlert(message: string): void {
@@ -290,7 +305,15 @@ export class MapPage {
   }
 
   initMap() {
-    this.geolocation.getCurrentPosition({ timeout: 30000 }).then((position) => {
+    // this.geolocation.getCurrentPosition({ timeout: 30000 }).then((position) => {
+      var position = {
+        coords: {
+          latitude: 52.4916686397199,
+          longitude: 13.392747044563293,
+          accuracy: 10
+        }
+      };
+
       if (position.coords !== undefined) {
 
         this.setLocationAvailable(true);
@@ -299,7 +322,7 @@ export class MapPage {
 
         let mapOptions = {
           center: latLng,
-          zoom: 17,
+          zoom: 19,
           gestureHandling: 'greedy',
           mapTypeId: google.maps.MapTypeId.ROADMAP,
           styles: [
@@ -554,22 +577,22 @@ export class MapPage {
         // Listen for clicks on the map.
         this.map.addListener('click', this.handleClick.bind(this));
 
-        this.geolocation.watchPosition({ timeout: 10000 }).subscribe((position) => {
-          if (position.coords !== undefined) {
-            this.setLocationAvailable(true);
+        // this.geolocation.watchPosition({ timeout: 10000 }).subscribe((position) => {
+        //   if (position.coords !== undefined) {
+        //     this.setLocationAvailable(true);
 
-            if (this.locationMarker && this.locationAccuracyCircle) {
-              let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        //     if (this.locationMarker && this.locationAccuracyCircle) {
+        //       let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
-              this.locationMarker.setPosition(latLng);
-              this.locationAccuracyCircle.setCenter(latLng);
-              this.locationAccuracyCircle.setRadius(Number(position.coords.accuracy));
-            };
-          }
-          else {
-            this.onLocationError(position);
-          }
-        }, this.onLocationError);
+        //       this.locationMarker.setPosition(latLng);
+        //       this.locationAccuracyCircle.setCenter(latLng);
+        //       this.locationAccuracyCircle.setRadius(Number(position.coords.accuracy));
+        //     };
+        //   }
+        //   else {
+        //     this.onLocationError(position);
+        //   }
+        // }, this.onLocationError);
 
         this.locationWatching = true;
         this.mapInitialised = true;
@@ -577,7 +600,7 @@ export class MapPage {
       else {
         this.onLocationError(null);
       }
-    }, this.onLocationError).catch(this.onLocationError);
+    // }, this.onLocationError).catch(this.onLocationError);
   }
 
   setLocationAvailable(locationAvailable: boolean) : void {
@@ -585,27 +608,27 @@ export class MapPage {
   }
 
   onLocationError(error) {
-    this.setLocationAvailable(false);
+    // this.setLocationAvailable(false);
 
-    if (!this.locationWatching) {
-      var temporaryLocationWatch = this.geolocation.watchPosition({ timeout: 10000 }).subscribe((position) => {
-        if (position.coords !== undefined && (this.isOnline())) {
-          if (typeof google == "undefined" || typeof google.maps == "undefined") {
+    // if (!this.locationWatching) {
+    //   var temporaryLocationWatch = this.geolocation.watchPosition({ timeout: 10000 }).subscribe((position) => {
+    //     if (position.coords !== undefined && (this.isOnline())) {
+    //       if (typeof google == "undefined" || typeof google.maps == "undefined") {
 
-            this.loadGoogleMaps();
+    //         this.loadGoogleMaps();
 
-          } else {
+    //       } else {
 
-            if (!this.mapInitialised) {
-              this.initMap();
-            }
-          }
+    //         if (!this.mapInitialised) {
+    //           this.initMap();
+    //         }
+    //       }
 
-          temporaryLocationWatch.unsubscribe();
-        }
-      });
-      this.locationWatching = true;
-    }
+    //       temporaryLocationWatch.unsubscribe();
+    //     }
+    //   });
+    //   this.locationWatching = true;
+    // }
 
     console.log('Error getting location', error);
   }
@@ -615,9 +638,9 @@ export class MapPage {
     
     // If the event has a placeId, use it.
     if (event.placeId) {
-      this.zone.run(() => {
-        this.currentLocationLoading = true;
-      });
+      // this.zone.run(() => {
+      //   this.currentLocationLoading = true;
+      // });
       console.log(event.placeId);
 
       // Calling e.stop() on the event prevents the default info window from
@@ -625,7 +648,8 @@ export class MapPage {
       // If you call stop here when there is no placeId you will prevent some
       // other map click event handlers from receiving the event.
       event.stop();
-      this.navCtrl.push(LocationPage, {placeId: event.placeId});
+      
+      this.goToLocation(new Location(event.placeId, ""));
     }
   };
 
@@ -641,6 +665,17 @@ export class MapPage {
         if (data.location) resolve(data.location);
       })
     );
+  }
+
+  checkIn(placeId: string): void {
+    this.setState(1);
+    this.showLoading();
+    this.getPlaceInformation(placeId == this.currentLocation.googlePlaceId ? "0" : placeId)
+      .then((response) => {
+        this.currentLocation = response
+        this.setState(1);
+        this.hideLoading();
+      });
   }
 
   ////////////////////////////////////////////// NETWORK
@@ -661,14 +696,69 @@ export class MapPage {
 
   ////////////////////////////////////////////// NAVIGATION
 
-  sendMessage(newMessage: string): void {
-
-    if (newMessage) {
-
-    }
-
-  }
+  newStatus(): void {
+    let modal = this.modalCtrl.create(StatusPage);
     
+    modal.onDidDismiss((data) => {
+      if (data) {
+        console.log("data", data);
+        // this.currentLocation.feed.messages.push(data);
+        this.scrollToTop();
+      }
+    });
+
+    modal.present();
+  }
+   
+  selectLocation(ev) {
+    if (this.loading) return;
+
+    let popover = this.popoverCtrl.create(LocationSwitcherComponent,
+      {
+        locations: this.closeLocations,
+        currentLocation: this.currentLocation
+      }
+    );
+
+    popover.present({
+      ev: ev
+    });
+ 
+    popover.onDidDismiss((popoverData) => {
+      if (popoverData) {
+        console.log("popoverData", popoverData);
+        if (popoverData.checkIn == true) {
+          this.checkIn(popoverData.location.googlePlaceId);
+        }
+        else {
+          this.goToLocation(popoverData.location);
+        }
+      }
+    })
+  }
+
+  goToLocation(location: Location): void {
+    if (location.googlePlaceId != "0") {
+      let modal = this.modalCtrl.create(LocationPage,
+        {
+          placeId: location.googlePlaceId,
+          // 0: Location is current Location
+          // 1: Can check in
+          // 2: Too far away for check in 
+          checkInStatus: location.googlePlaceId == this.currentLocation.googlePlaceId ? 0 : this.closeLocations.find((loc) => loc.googlePlaceId == location.googlePlaceId) ? 1 : 2
+        }
+      );
+      
+      modal.onDidDismiss((data) => {
+        if (data) {
+          if (data.checkIn == true) this.checkIn(location.googlePlaceId);
+        }
+      });
+  
+      modal.present();
+    }
+  }
+ 
   openChat(chat: Chat): void {
     this.navCtrl.push(ChatPage, { chat: chat });
   }
@@ -680,4 +770,13 @@ export class MapPage {
   openOwnProfile(): void {
     this.navCtrl.push(UserProfilePage, {user: this.authService.currentUser})
   }
+
+  private scrollToTop(duration?: number): void {
+    setTimeout(() => {
+      if (this.content) {
+        this.content.scrollToTop(duration || 300);
+      }
+    }, 50);
+  }
+
 }

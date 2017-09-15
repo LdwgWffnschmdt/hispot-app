@@ -24,6 +24,7 @@ import { MessageBoxComponent } from './../components/message-box/message-box.com
 import { ProgressBarComponent } from './../components/progress-bar/progress-bar.component';
 import { UserInfoComponent } from './../components/user-info/user-info.component';
 import { UserMenuComponent } from './../components/user-menu/user-menu.component';
+import { LocationSwitcherComponent } from '../components/location-switcher/location-switcher';
 
 import { SigninPage } from './../pages/signin/signin';
 import { UserProfilePage } from './../pages/user-profile/user-profile';
@@ -32,6 +33,8 @@ import { ChatListPage } from '../pages/chat-list/chat-list';
 import { MapPage } from './../pages/map/map';
 import { HomePage } from '../pages/home/home';
 import { LocationPage } from '../pages/location/location';
+import { StatusPage } from './../pages/status/status';
+
 
 import { ApolloClient, createNetworkInterface } from 'apollo-client';
 import { ApolloModule } from 'apollo-angular';
@@ -39,8 +42,8 @@ import { ApolloModule } from 'apollo-angular';
 import { MyApp } from './app.component';
 import { ShrinkingSegmentHeader } from '../components/shrinking-segment-header/shrinking-segment-header';
 
-// const networkInterface = createNetworkInterface({ uri: 'https://hispot-server-hfdmrqntkh.now.sh/graphql' });
-const networkInterface = createNetworkInterface({ uri: 'http://localhost:3000/graphql' });
+const networkInterface = createNetworkInterface({ uri: 'https://hispot-server-segekjpsrd.now.sh/graphql' });
+// const networkInterface = createNetworkInterface({ uri: 'http://localhost:3000/graphql' });
 
 networkInterface.use([{
   applyMiddleware(req, next) {
@@ -54,7 +57,10 @@ networkInterface.use([{
 }]);
 
 const client = new ApolloClient({
-  dataIdFromObject: (o: any) => o.id,
+  dataIdFromObject: (o: any) => {
+    if (o.googlePlaceId) return o.googlePlaceId;
+    else return o.id
+  },
   networkInterface,
 });
 
@@ -79,7 +85,9 @@ export function provideClient(): ApolloClient {
     MapPage, 
     HomePage,
     LocationPage,
-    ShrinkingSegmentHeader
+    StatusPage,
+    ShrinkingSegmentHeader,
+    LocationSwitcherComponent
   ],
   imports: [
     BrowserModule,
@@ -97,7 +105,9 @@ export function provideClient(): ApolloClient {
     ChatListPage, 
     MapPage, 
     HomePage,
-    LocationPage
+    LocationPage,
+    StatusPage,
+    LocationSwitcherComponent
   ],
   providers: [
     StatusBar,

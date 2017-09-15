@@ -9,17 +9,18 @@ page-location {
     pointer-events: none;
   }
 
-  ion-navbar.navbar-state-1 {
-    .back-button {
-      display: inline-block;
-    }
-  }
+  // ion-navbar.navbar-state-1 {
+  //   .back-button {
+  //     display: inline-block;
+  //   }
+  // }
 
   ion-content > .scroll-content {
     padding-top: 0 ! important;
     background: #f1f1f1;
   }
 
+  .check-out,
   .check-in,
   .too-far {
     display: flex;
@@ -40,6 +41,7 @@ page-location {
     }
   }
 
+  .loading .check-out,
   .loading .check-in,
   .loading .too-far {
     display: none;

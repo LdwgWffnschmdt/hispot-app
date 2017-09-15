@@ -1,4 +1,6 @@
-﻿$navigation-button-size: 40px;
+﻿@import url('https://fonts.googleapis.com/css?family=Oswald');
+
+$navigation-button-size: 40px;
 $navigation-button-scale: 0.65;
 $navigation-button-from-border: 5vw;
 $navigation-button-margin: 4px;
@@ -68,6 +70,13 @@ page-map {
     text-align: center;
     overflow-y: hidden;
     background: transparent;
+
+    .hispot-text {
+      mix-blend-mode: lighten;
+      position: relative;
+      top: 15vh;
+      width: 30vw;
+    }
 
     & > ion-slides {
       height: 100vh ! important;
@@ -162,10 +171,10 @@ page-map {
         z-index: 10;
       }
       
-      // &::before {
-      //   background: radial-gradient(circle, rgba(0,0,0,0) 0%, color($colors, primary) 85%);
-      //   opacity: 0;
-      // }
+      &::before {
+        background: radial-gradient(circle, rgba(0,0,0,0) 0%, color($colors, primary) 85%);
+        opacity: 0;
+      }
       
       & > div {
         top: auto ! important;
@@ -189,43 +198,76 @@ page-map {
 
     .location {
       height: 180px;
-      overflow: hidden;
       position: relative;
-      background: #f1f1f1;
-      box-shadow: rgba(0, 0, 0, 0.5) 0 0 36px, rgba(0, 0, 0, 0.35) 0 -40px 100px;
+      background: #f8f8f8;
+      // border-top: 0.55px solid rgba(0,0,0,0.3);
+      // border-bottom: 0.55px solid rgba(0,0,0,0.3);
+      // background: color($colors, primaryLight);
+      // box-shadow: rgba(0, 0, 0, 0.3) 0 -40px 100px;
+      // box-shadow: rgba(0, 0, 0, 0.3) 0 0 16px, rgba(0, 0, 0, 0.3) 0 -40px 100px;
+      box-shadow: 0px -11px 14px -7px rgba(0, 0, 0, 0.2), 0px -23px 36px 3px rgba(0, 0, 0, 0.14), 0px -9px 44px 8px rgba(0, 0, 0, 0.12),
+                  $shadow-toolbar;
+      // box-shadow: rgba(0, 0, 0, 0.5) 0 0 36px, rgba(0, 0, 0, 0.35) 0 -40px 100px;
       transition: height $animation-stack, box-shadow $animation-stack;
       will-change: height;
     
-      & > ion-slides {
-        will-change: filter;
-        transition: filter $animation-stack;
-        filter: saturate(0%);
+      ion-fab {
+        will-change: transform;
+        transition: transform $animation-stack;
       }
-  
-      .gradient {
-        transition: opacity $animation-stack;
-        will-change: opacity;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        opacity: 0.8;
-        // background: color($colors, secondary);
-        background: linear-gradient(to bottom, color($colors, secondary),
-                                                color($colors, secondaryDark));
-        // background: linear-gradient(to bottom, rgba(255,255,255,0.9) 0%,rgba(255,255,255,0.8) 100%);
-        // background: linear-gradient(to right, rgba(0,148,212,1) 0%,rgba(179,37,82,1) 50%,rgba(229,50,13,1) 100%);
-      }
+
+      // & > ion-slides {
+      //   will-change: filter;
+      //   transition: filter $animation-stack;
+      //   filter: saturate(0%);
+      // }
+      
+      // .gradient {
+      //   transition: opacity $animation-stack;
+      //   will-change: opacity;
+      //   position: absolute;
+      //   left: 0;
+      //   right: 0;
+      //   top: 0;
+      //   bottom: 0;
+      //   opacity: 0.8;
+      //   // background: #f1f1f1;
+      //   // background: color($colors, secondary);
+      //   background: linear-gradient(to bottom, color($colors, secondary),
+      //                                          color($colors, secondaryDark));
+      //   // background: linear-gradient(to bottom, rgba(255,255,255,0.9) 0%,rgba(255,255,255,0.8) 100%);
+      //   // background: linear-gradient(to right, rgba(0,148,212,1) 0%,rgba(179,37,82,1) 50%,rgba(229,50,13,1) 100%);
+      // }
   
       ion-title {
-        color: white;
         overflow: hidden;
         width: 100%;
         white-space: nowrap;
         text-overflow: ellipsis;
         position: absolute;
-        top: 10px;
+        top: 12px;
+        margin: 0 16px;
+        // font-size: 3rem;
+        // font-family: 'Oswald', sans-serif;
+        // text-shadow: rgba(0,0,0,0.75) 0 1px 5px;
+
+        &.noLocation {
+          
+          div.toolbar-title {
+            color: color($colors, dark);
+          }
+
+          ion-icon {
+            display: none;
+          }
+        }
+
+        div.toolbar-title {
+          color: color($colors, secondaryDark);
+          text-align: left ! important;
+          font-size: 1.7rem ! important;
+          padding: 0 0px ! important;
+        }
 
         ion-icon {
           position: absolute;
@@ -247,10 +289,59 @@ page-map {
     }
   }
 
+  ion-fab {
+    will-change: transform;
+    transition: transform $animation-stack;
+    transform: scale(0);
+  }
+
   .feed {
     background: #f1f1f1;
-    margin-top: 330px;
+    margin-top: 316px;
     padding-top: 16px;
+    
+    & > ion-card:first-of-type {
+      border-radius: 30px;
+    }
+
+    ion-col {
+      padding: 12px ! important;
+      text-align: center;
+      background: linear-gradient(to right, color($colors, primary),
+                                            color($colors, tertiary));
+      background-size: 100vw;
+      position: relative;
+      overflow: hidden;
+
+      img {
+        position: absolute;
+        left: 0;
+        // top: -60%;
+        transform: scale(1.5);
+
+        filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='10');
+        -webkit-filter: url(#blur-filter);
+        filter: url(#blur-filter);
+        -webkit-filter: blur(10px);
+        filter: blur(10px);
+      }
+
+      &:last-of-type {
+        background: #333;
+      }
+
+      span {
+        position: relative;
+        color: #fff;
+        font-weight: bold;
+        font-size: 2rem;
+
+        ion-icon {
+          margin-right: 8px;
+          font-size: 2rem;
+        }
+      }
+    }
   }
 
   section.profile-pane {
@@ -264,13 +355,23 @@ page-map {
 
     .profile-section {
       // background: color($colors, secondary);
-      background: radial-gradient(circle, color($colors, secondary),
-                                          color($colors, secondaryDark));
-      box-shadow: rgba(0,0,0,0.5) 0 0 100px;
+      box-shadow: $shadow-toolbar;
+      // box-shadow: rgba(0,0,0,0.5) 0 0 100px;
+      // border-bottom: 0.55px solid rgba(0, 0, 0, 0.3);
       height: 40vh;
       z-index: 1;
       position: relative;
       text-align: center;
+
+      &.male {
+        background: radial-gradient(circle, color($colors, secondary),
+                                            color($colors, secondaryDark));
+      }
+
+      &.female {
+        background: radial-gradient(circle, color($colors, tertiary),
+                                            color($colors, primary));
+      }
 
       .avatar {
         width: 20vh;
@@ -279,7 +380,8 @@ page-map {
         top: 10vh;
         left: calc(50vw - 10vh);
         border-radius: 100%;
-        box-shadow: rgba(0,0,0,0.3) 0 0 20px;
+        // box-shadow: rgba(0,0,0,0.3) 0 0 20px;
+        box-shadow: $shadow-7;
       }
 
       h2 {
@@ -304,12 +406,16 @@ page-map {
       width: 100%;
       height: $navigation-button-size + $navigation-button-margin * 2;
       // background: #d6d6d6;
-      background: radial-gradient(circle,#d6d6d6, #ccc 50%);
-      box-shadow: rgba(0, 0, 0, 0.25) 0 0 20px;
-      // background: radial-gradient(circle, color($colors, secondary),
-      //                                     color($colors, secondaryDark));
+      // background: color($colors, primaryDark);
+      // background: radial-gradient(circle,#d6d6d6, #ccc 50%);
+      // box-shadow: rgba(0, 0, 0, 0.25) 0 0 20px;;
+      box-shadow: $shadow-toolbar;
+      background: linear-gradient(to right, color($colors, primary),
+                                            color($colors, tertiary));
+      background-size: 200%;
       // box-shadow: rgba(0,0,0,0.5) 0 0 36px;
       position: absolute;
+      // border-bottom: 0.55px solid rgba(0,0,0,0.3);
       z-index: 1;
     }
 
@@ -324,6 +430,35 @@ page-map {
     }
   }
 
+  .location:after,
+  .feed:after,
+  .fixed-content ion-fab:after {
+    content: '';
+    position: absolute;
+    z-index: 999;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: rgba(255,255,255,0.5);
+    transition: opacity $animation-stack;
+    will-change: opacity;
+  }
+
+  .loading-location {
+    .location ion-fab {
+      z-index: 1000;
+    }
+  
+    .location:after,
+    .feed:after,
+    .fixed-content ion-fab:after {
+      opacity: 1;
+    }
+  }
+  
   .error {
     opacity: 0;
     pointer-events: none;
@@ -401,6 +536,10 @@ page-map.state-1 {
     } 
   }
 
+  ion-fab {
+    transform: none;
+  }
+  
   .login {
     transform: translateY(-110vh);
   }
@@ -518,6 +657,10 @@ page-map.state-4{
       transform: translateY(-20vh) ! important;
     }
   }
+
+  ion-fab {
+    transform: none;
+  }
   
   .login {
     transform: translateY(-110vh);
@@ -533,6 +676,10 @@ page-map.state-4{
 
     .location {
       height: 180px;
+
+      ion-fab {
+        transform: scale(0);
+      }
 
       .people {
         // .scroll-zoom-wrapper {

@@ -15,6 +15,11 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
+// * {
+//   box-shadow: none ! important;
+//   text-shadow: none ! important;
+// }
+
 .blur-svg {
   display: none;
 }
@@ -25,6 +30,38 @@
   filter: blur(3px);
 }
 
+.fab {
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+}
+
+.fab-md-primary,
+.fab-ios-primary,
+.fab-wp-primary {
+  background: linear-gradient(to right, color($colors, primary),
+                                        color($colors, tertiary));
+  background-size: 50vw;
+}
+
+.fab-md-primaryLight,
+.fab-ios-primaryLight,
+.fab-wp-primaryLight {
+  background: linear-gradient(to right, color($colors, primaryLight),
+                                        color($colors, tertiaryLight));
+  background-size: 25vw;
+}
+
+.button-md {
+  height: 4.2rem;
+}
+
+.button-md-primary,
+.button-ios-primary,
+.button-wp-primary {
+  background: linear-gradient(to right, color($colors, primary),
+                                        color($colors, tertiary));
+  background-size: 100vw;
+}
+
 ion-navbar.shadow-background {
   .bar-button,
   .bar-buttons,
@@ -33,13 +70,17 @@ ion-navbar.shadow-background {
   }
   
   .toolbar-background {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%,rgba(0,0,0,0.15) 50%,rgba(0,0,0,0) 100%);
+    background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%,rgba(0,0,0,0.125) 30%,rgba(0,0,0,0) 100%);
   }  
+}
+
+.toolbar-shadow {
+  box-shadow: $shadow-toolbar;
 }
 
 .title-panel {
   background: #fff;
-  box-shadow: rgba(0,0,0,0.75) 0 0 4px;
+  box-shadow: $shadow-toolbar;
 
   p {
     padding: 0;
@@ -64,7 +105,6 @@ ion-slides.top-slides {
   height: 38.2vh;
   min-width: 100%;
   background: #666;
-  box-shadow: rgba(0,0,0,0.75) 0 0 4px;
   overflow: hidden;
 
   .slide-zoom {
@@ -130,7 +170,7 @@ ion-slides.top-slides {
   }
 
   .image-button:first-of-type {
-    margin-left: 20px;
+    margin-left: 16px;
     height: 120px;
     width: 120px;
 

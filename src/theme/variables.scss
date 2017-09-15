@@ -16,7 +16,8 @@ $font-path: "../assets/fonts";
 $animation-stack: 0.4s cubic-bezier(0.230, 1.000, 0.320, 1.000);
 // $animation-stack: 0s linear;
 
-
+$shadow-toolbar: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+$shadow-7: 0px 4px 5px -2px rgba(0, 0, 0, 0.2), 0px 7px 10px 1px rgba(0, 0, 0, 0.14), 0px 2px 16px 1px rgba(0, 0, 0, 0.12);
 
 // Named Color Variables
 // --------------------------------------------------
@@ -33,6 +34,9 @@ $colors: (
   secondary:      #0094d4,
   secondaryLight: #5fc4ff,
   secondaryDark:  #0066a2,
+  tertiary:       #e5320d,
+  tertiaryLight:  #ff6a3d,
+  tertiaryDark:   #aa0000,
   danger:     #e5320d,
   light:      #f4f4f4,
   dark:       #222,

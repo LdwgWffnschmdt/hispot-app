@@ -1,6 +1,6 @@
 import { Location } from './../../models/models';
 import { Component, ViewChild, Renderer, ElementRef } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
 
 import { AuthService } from './../../providers/auth.service';
 import { User } from "../../models/models";
@@ -12,6 +12,7 @@ const GetLocationQuery = gql`
 query location($googlePlaceId: String) {
   location(googlePlaceId: $googlePlaceId) {
     id
+    googlePlaceId
     name
     description
     pictures {
@@ -72,6 +73,7 @@ export class LocationPage {
   constructor(
     public authService: AuthService,
     public navCtrl: NavController, 
+    public viewCtrl: ViewController,
     public navParams: NavParams,
     private apollo: Apollo,
     public element: ElementRef,
@@ -85,7 +87,7 @@ export class LocationPage {
     };
 
     var message = {
-      content: "Das hier ist ein Platzhalter",
+      content: "Das hier ist ein Platzhalter Das hier ist ein Platzhalter Das hier ist ein Platzhalter Das hier ist ein Platzhalter Das hier ist ein Platzhalter",
       sender: user,
       timestamp: Date.now()
     }
@@ -110,6 +112,7 @@ export class LocationPage {
   }
 
   ionViewWillEnter() {
+    this.checkInStatus = this.navParams.get("checkInStatus");
 
     this.location = this.navParams.get("location");
 
@@ -159,4 +162,11 @@ export class LocationPage {
     );
   }
 
+  checkIn(): void {
+    this.viewCtrl.dismiss({checkIn: true});
+  }
+  
+  dismiss() {
+    this.viewCtrl.dismiss();
+  }
 }

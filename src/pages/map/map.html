@@ -20,41 +20,42 @@
 
 </ion-header>
 
-<ion-content fullscreen #feed>
+<ion-content fullscreen #feed [ngClass]="{'loading-location': loading}">
 
   <div class="login">
-
+    <img src="assets/Hi!Spot.svg" class="hispot-text"/>
+<!-- 
     <ion-slides pager autoplay="5000">
       <ion-slide padding>
-      <!-- <ion-slide padding style="background-image: url(https://unsplash.it/g/500/800?random);"> -->
+      <!-- <ion-slide padding style="background-image: url(https://unsplash.it/g/500/800?random);"> --
         <div class="darken"></div>
         <h1>Überschrift 1</h1>
         <p>Hic est illo et et. Illum ut quaerat fugiat voluptatibus quam libero.</p>
       </ion-slide>
       <ion-slide padding>
-      <!-- <ion-slide padding style="background-image: url(https://unsplash.it/g/500/801?random);"> -->
+      <!-- <ion-slide padding style="background-image: url(https://unsplash.it/g/500/801?random);"> --
         <div class="darken"></div>
         <h1>Überschrift 2</h1>
         <p>Hic est illo et et. Illum ut quaerat fugiat voluptatibus quam libero.</p>
       </ion-slide>
       <ion-slide padding>
-      <!-- <ion-slide padding style="background-image: url(https://unsplash.it/g/500/802?random);"> -->
+      <!-- <ion-slide padding style="background-image: url(https://unsplash.it/g/500/802?random);"> --
         <div class="darken"></div>
         <h1>Überschrift 3</h1>
         <p>Hic est illo et et. Illum ut quaerat fugiat voluptatibus quam libero.</p>
       </ion-slide>
     </ion-slides>
-    
+     -->
     <div class="login-footer">
       
-      <ion-spinner name="crescent" *ngIf="loggingIn" color="light" margin-top></ion-spinner>
+      <ion-spinner name="crescent" *ngIf="loading" color="light" margin-top></ion-spinner>
 
-      <button *ngIf="!loggingIn" margin ion-button color="light" outline textx-center (click)="onSigninWithFacebook()" icon-left>
+      <button *ngIf="!loading" margin ion-button color="light" round textx-center (click)="skip()" icon-left>
         <ion-icon name="logo-facebook"></ion-icon>
         Login mit Facebook
       </button>
 
-      <div padding class="terms"><a (click)="skip()" *ngIf="!loggingIn">Skip ></a><br/>By continuing, you agree to our <a href="/">Terms</a> and <a href="/">Privacy Policy</a></div>
+       <div padding class="terms"><!--<a (click)="skip()" *ngIf="!loading">Skip ></a><br/>-->By continuing, you agree to our <a href="/">Terms</a> and <a href="/">Privacy Policy</a></div> 
 
     </div>
 
@@ -66,7 +67,13 @@
     
 
     <div class="location">
-      <ion-slides *ngIf="currentLocation" class="top-slides" pager centeredSlides slidesPerView="auto">
+      <ion-fab edge right top>
+        <button ion-fab mini color="primaryLight" (click)="selectLocation($event)">
+          <ion-icon name="md-repeat" *ngIf="!loading"></ion-icon>
+          <ion-spinner name="crescent" *ngIf="loading" color="light"></ion-spinner>
+        </button>
+      </ion-fab>
+      <!-- <ion-slides *ngIf="currentLocation" class="top-slides" pager centeredSlides slidesPerView="auto">
           
         <ion-slide *ngFor="let picture of currentLocation.pictures">
           <img class="swiper-lazy" data-src="{{ picture.url }}" />
@@ -74,17 +81,17 @@
       
       </ion-slides>
 
-      <div class="gradient"></div>
-      <ion-title *ngIf="currentLocation" ion-text (click)="setState(3)">{{ currentLocation.name }}<ion-icon name="arrow-forward"></ion-icon></ion-title>
+      <div class="gradient"></div> -->
+      <ion-title *ngIf="currentLocation" ion-text (click)="goToLocation(currentLocation)" [class]="currentLocation.googlePlaceId == '0' ? 'noLocation' : ''">{{ currentLocation.name }}<ion-icon name="arrow-forward"></ion-icon></ion-title>
 
-
+<!-- 
       <div padding class="title-panel" margin-bottom *ngIf="currentLocation">
         
         <h2 class="loading-text">{{ currentLocation.name }}</h2>
         <p class="loading-text">{{ currentLocation.description }}</p>
         
       </div>
-      
+       -->
 <!--       
       <ion-scroll scrollX *ngIf="currentLocation" class="people">
         <isotope>
@@ -105,10 +112,25 @@
 
   </div>
 
+  <ion-fab right bottom>
+    <button ion-fab mini color="light" (click)="newStatus()"><ion-icon name="md-create"></ion-icon></button>
+    <button ion-fab color="primary"><ion-icon name="md-camera"></ion-icon></button>
+  </ion-fab>
+
   <div class="feed main-pane" *ngIf="currentLocation" (swipeleft)="setState(6)" (swiperight)="setState(5)">
     
     <ion-card>
-      <ion-item no-lines>
+      <ion-grid no-padding>
+        <ion-row>
+          <ion-col (click)="newStatus()"><span><ion-icon name="md-create"></ion-icon>Status</span></ion-col>
+          <ion-col>
+            <img [src]="authService.currentUser.pictures[0].url">
+            <span><ion-icon name="md-camera"></ion-icon>Foto</span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <!-- <ion-item no-lines>
         <ion-avatar item-start>
           <img [src]="authService.currentUser.pictures[0].url">
         </ion-avatar>
@@ -116,12 +138,12 @@
         <button ion-button item-right (click)="sendMessage(newMessage); newMessage=''">
           <ion-icon name="send"></ion-icon>
         </button>
-      </ion-item>
-    </ion-card>
+      </ion-item> -->
+    </ion-card> 
     
     <div class="messages">
       
-      <ion-card *ngFor="let message of currentLocation.feed.messages">
+      <ion-card *ngFor="let message of currentLocation.feed.messages | slice:0:10">
           
         <ion-item (click)="openProfile(message.sender)">
           <ion-avatar item-start>
@@ -160,7 +182,7 @@
 
   <section class="profile-pane" (swipeleft)="setState(1)">
 
-    <div class="profile-section" *ngIf="authService.currentUser" (click)="openOwnProfile()">
+    <div class="profile-section {{ authService.currentUser.gender }}" *ngIf="authService.currentUser" (click)="openOwnProfile()">
       <img [src]="authService.currentUser.pictures[0].url" class="avatar">
       <h2>{{ authService.currentUser.name }}</h2>
     </div>

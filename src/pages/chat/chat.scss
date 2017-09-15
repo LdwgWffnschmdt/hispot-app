@@ -8,7 +8,7 @@ page-chat {
   }
 
   .messages {
-    padding-bottom: 50px;
+    padding: 16px 0 50px;
 
     .message-box {
       background: white;
@@ -84,7 +84,9 @@ page-chat {
       
       &.other {
         .chat-bubble {
-          background: linear-gradient(to right, color($colors, primaryLight, base) 0%, color($colors, primary, base) 100%);
+          background: linear-gradient(to right, color($colors, tertiary),
+                                                color($colors, primary));
+          background-size: 100vw;
           color: #fff;
           margin-left: 55px;
           float: left;
@@ -114,6 +116,13 @@ page-chat {
         }
       }
 
+
+      &.male {
+        .chat-bubble {
+          background: linear-gradient(to right, color($colors, secondary),
+                                                color($colors, secondaryDark));
+        }
+      }
     }
     
     .other + .other {

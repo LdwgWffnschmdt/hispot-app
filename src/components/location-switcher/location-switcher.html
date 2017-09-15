@@ -1,0 +1,13 @@
+<ion-list>
+  <ion-list-header>Locations in der Nähe</ion-list-header>
+  <button ion-item detail-none *ngFor="let location of locations" (click)="close($event, location)">
+    {{ location.name }}
+    
+    <button *ngIf="location.googlePlaceId == currentLocation.googlePlaceId" ion-button outline round item-right color="primary" (click)="checkIn($event, location)">
+      Auschecken
+    </button>
+    <button *ngIf="location.googlePlaceId != currentLocation.googlePlaceId" ion-button outline round item-right color="secondary" (click)="checkIn($event, location)">
+      Einchecken
+    </button>
+  </button>
+</ion-list>

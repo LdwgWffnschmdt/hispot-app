@@ -7,7 +7,7 @@
     
   </ion-navbar>
 
-  <ion-navbar color="primary" class="navbar-state-1">
+  <ion-navbar class="navbar-state-1 toolbar-shadow">
 
     <ion-title *ngIf="user">{{ user.name }}</ion-title>
 
@@ -32,7 +32,11 @@
     <button ion-fab color="primary" (click)="startChat()"><ion-icon name="chatboxes"></ion-icon></button>
   </ion-fab>
 
-  <div *ngIf="user && user.id === authService.currentUser.id">
+  <ion-fab right bottom *ngIf="user && user.id === authService.currentUser.id">
+    <button ion-fab color="primary"><ion-icon name="create"></ion-icon></button>
+  </ion-fab>
+
+  <!-- <div *ngIf="user && user.id === authService.currentUser.id">
 
     <button ion-button block (click)="canEdit = !canEdit">Edit</button>
 
@@ -56,6 +60,6 @@
 
     </form>
 
-  </div>
+  </div> -->
 
 </ion-content>

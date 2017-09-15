@@ -14,6 +14,7 @@ export interface User {
   location: Location;
   locationTime: Date;
   chats: [Chat];
+  gender: string;
 }
 
 export class Chat {
@@ -35,8 +36,9 @@ export class Message {
   constructor() {}
 }
 
-export interface Location {
+export class Location {
   id: string;
+  googlePlaceId: string;
   name: string;
   description: string;
   pictures: [Picture];
@@ -44,6 +46,11 @@ export interface Location {
   lng: number;
   visitors: [User];
   feed: Chat;
+  
+  constructor(googlePlaceId: string, name: string) {
+    this.googlePlaceId = googlePlaceId;
+    this.name = name;
+  }
 }
 
 export interface Picture {

@@ -8,7 +8,7 @@
   
   <div class="messages">
     
-    <div *ngFor="let message of chat.messages; let i = index" class="message-box {{message.sender.id === authService.currentUser.id ? 'mine' : 'other'}} {{ message.type }} {{ chat.messages[i+1] ? chat.messages[i+1].sender.id === message.sender.id ? '' : 'end' : 'end' }}">
+    <div *ngFor="let message of chat.messages; let i = index" class="message-box {{message.sender.id === authService.currentUser.id ? 'mine' : 'other'}} {{ message.type }} {{ message.sender.gender }} {{ chat.messages[i+1] ? chat.messages[i+1].sender.id === message.sender.id ? '' : 'end' : 'end' }}">
 
       <img *ngIf="message.sender.id !== authService.currentUser.id" class="profile-pic" [src]="message.sender.pictures[0].url" />
       

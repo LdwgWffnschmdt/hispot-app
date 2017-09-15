@@ -21,6 +21,7 @@ const GetUserFromIdQuery = gql`
       name
       description
       age
+      gender
       pictures {
         url
       }
@@ -29,6 +30,7 @@ const GetUserFromIdQuery = gql`
         user {
           id
           name
+          gender
           pictures {
             url
           }
@@ -41,6 +43,7 @@ const GetUserFromIdQuery = gql`
           sender {
             id
             name
+            gender
             pictures {
               url
             }

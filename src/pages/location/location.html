@@ -1,16 +1,24 @@
 <ion-header no-border>
   <ion-navbar class="navbar-state-0 shadow-background">
   
-    <button ion-button menuToggle="user-menu">
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="light" showWhen="ios">Zurück</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
-  <ion-navbar color="primary" class="navbar-state-1">
+  <ion-navbar class="navbar-state-1 toolbar-shadow">
 
-      <ion-title *ngIf="location">{{ location.name }}</ion-title>
+    <ion-title *ngIf="location">{{ location.name }}</ion-title>
 
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary" showWhen="ios">Zurück</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -31,15 +39,15 @@
   
   </div>
   
-  <ion-scroll scrollX class="people">
+  <ion-scroll *ngIf="checkInStatus != 0" scrollX class="people">
     <button *ngFor="let user of (location ? location.visitors : placeholder.visitors)" class="image-button">
       <img class="loading-image" [src]="user.pictures[0].url" />
     </button>
   </ion-scroll>
   
-  <div class="messages">
+  <div *ngIf="checkInStatus != 0" class="messages">
     
-    <ion-card *ngFor="let message of (location ? location.feed.messages : placeholder.feed.messages)">
+    <ion-card *ngFor="let message of (location ? location.feed.messages : placeholder.feed.messages) | slice:0:10">
         
       <ion-item>
         <ion-avatar item-start>
@@ -55,44 +63,30 @@
         <p class="loading-text">{{ message.content }}</p>
       </ion-card-content>
     
-      <ion-row>
-        <ion-col>
-          <button ion-button icon-left clear small>
-            <ion-icon name="thumbs-up"></ion-icon>
-            <div>12 Likes</div>
-          </button>
-        </ion-col>
-        <ion-col>
-          <button ion-button icon-left clear small>
-            <ion-icon name="text"></ion-icon>
-            <div>4 Comments</div>
-          </button>
-        </ion-col>
-        <ion-col center text-center>
-          <ion-note class="loading-text">
-            11h ago
-          </ion-note>
-        </ion-col>
-      </ion-row>
-    
     </ion-card>
 
   </div>
   
+  <div *ngIf="checkInStatus == 0" class="check-out" padding>
+    <button ion-button round color="primary" (click)="checkIn()">
+      Auschecken
+    </button>
+  </div>
+
   <div *ngIf="checkInStatus == 1" class="check-in" padding>
     <p>
       Check dich ein, um die Personen und den Feed zu sehen
     </p>
-    <button ion-button color="primary">
+    <button ion-button round color="primary" (click)="checkIn()">
       Einchecken
     </button>
   </div>
-
+      
   <div *ngIf="checkInStatus == 2" class="too-far" padding>
       <p>
         Du bist zu weit entfernt, um dich hier einzuchecken
       </p>
-      <button ion-button disabled color="primary">
+      <button ion-button round disabled color="primary">
         Einchecken
       </button>
     </div>

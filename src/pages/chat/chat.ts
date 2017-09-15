@@ -30,6 +30,9 @@ export class ChatPage {
 
   ionViewDidLoad() {
     this.scrollToBottom();
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 100);
   }
 
   sendMessage(): void {

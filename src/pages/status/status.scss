@@ -1,0 +1,43 @@
+page-status {
+  ion-content {
+    background: color($colors, primary) ! important;
+    overflow: hidden;
+  }
+
+  textarea {
+    position: absolute;
+    top: 20vh;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100vw;
+    border: 0;
+    text-align: center;
+    font-size: 4rem;
+    color: white;
+    background: transparent;
+    padding: 0 10vw;
+    resize: none;
+  }
+
+  ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #fff;
+    opacity:    0.6;
+  }
+  :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #fff;
+    opacity:    0.6;
+  }
+  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #fff;
+    opacity:    0.6;
+  }
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color:    #fff;
+    opacity:    0.6;
+  }
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color:    #fff;
+    opacity:    0.6;
+  }
+}
