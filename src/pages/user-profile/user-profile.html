@@ -33,7 +33,7 @@
   </ion-fab>
 
   <ion-fab right bottom *ngIf="user && user.id === authService.currentUser.id">
-    <button ion-fab color="primary"><ion-icon name="create"></ion-icon></button>
+    <button ion-fab color="primary" (click)="editUser()"><ion-icon name="create"></ion-icon></button>
   </ion-fab>
 
   <!-- <div *ngIf="user && user.id === authService.currentUser.id">

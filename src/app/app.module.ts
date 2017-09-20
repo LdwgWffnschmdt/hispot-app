@@ -16,6 +16,7 @@ import { MomentModule } from 'angular2-moment';
 import { AuthService } from './../providers/auth.service';
 
 import { ParallaxHeader } from '../directives/parallax-header/parallax-header';
+import { Autoresize } from './../directives/autoresize/autoresize';
 
 import { CapitalizePipe } from './../pipes/capitalize.pipe';
 
@@ -28,6 +29,7 @@ import { LocationSwitcherComponent } from '../components/location-switcher/locat
 
 import { SigninPage } from './../pages/signin/signin';
 import { UserProfilePage } from './../pages/user-profile/user-profile';
+import { EditUserProfilePage } from './../pages/edit-user-profile/edit-user-profile';
 import { ChatPage } from './../pages/chat/chat';
 import { ChatListPage } from '../pages/chat-list/chat-list';
 import { MapPage } from './../pages/map/map';
@@ -68,10 +70,19 @@ export function provideClient(): ApolloClient {
   return client;
 }
 
+declare var window;
+
+export class MyErrorHandler implements ErrorHandler {
+  handleError(err: any): void {
+    window.Ionic.handleNewError(err);
+  }
+}
+
 @NgModule({
   declarations: [
     MyApp,
     ParallaxHeader,
+    Autoresize,
     CapitalizePipe,
     CustomLoggedHeaderComponent,
     MessageBoxComponent,
@@ -80,6 +91,7 @@ export function provideClient(): ApolloClient {
     UserMenuComponent,
     SigninPage,
     UserProfilePage,
+    EditUserProfilePage,
     ChatPage,
     ChatListPage, 
     MapPage, 
@@ -101,6 +113,7 @@ export function provideClient(): ApolloClient {
     MyApp,
     SigninPage,
     UserProfilePage,
+    EditUserProfilePage,
     ChatPage,
     ChatListPage, 
     MapPage, 
@@ -117,7 +130,8 @@ export function provideClient(): ApolloClient {
     Geolocation,
     Network,
     AuthService,
-    FacebookService
+    FacebookService,
+    [{ provide: ErrorHandler, useClass: MyErrorHandler }]
   ]
 })
 export class AppModule { }

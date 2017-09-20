@@ -1,0 +1,48 @@
+page-edit-user-profile {
+  .picture-button {
+    position: relative;
+    width: 100%;
+    display: block;
+    padding-top: 100%; 	/* initial ratio of 1:1*/
+    margin: 0;
+    border-radius: 5px;
+    overflow: hidden;
+
+    // &:before{
+    //   content: "";
+    //   display: block;
+    //   padding-top: 100%; 	/* initial ratio of 1:1*/
+    // }
+    
+    &[margin-top] {
+      margin-top: 10px;
+    }
+
+    .button-inner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+
+      span {
+        position: absolute;
+        top: 8px;
+        right: 12px;
+      }
+
+      img + ion-icon {
+        display: none;
+      }
+
+      img {
+        width: 100%;
+      }
+      
+    }
+  }
+
+  textarea {
+    resize: both;
+  }
+}

@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-navbar>
+  
+    <ion-title>Profil bearbeiten</ion-title>
+      
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text showWhen="ios">Zurück</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+  
+<ion-content fullscreen #content>
+
+  <form (ngSubmit)="onSubmit($event)" #profileForm="ngForm">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-8>
+          <button ion-button class="picture-button picture-0">
+            <span>1</span>
+            <img *ngIf="authService.currentUser.pictures[0]"  src="{{ authService.currentUser.pictures[0].url }}" />
+            <ion-icon name="add"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button class="picture-button picture-1">
+            <span>2</span>
+            <img *ngIf="authService.currentUser.pictures[1]"  src="{{ authService.currentUser.pictures[1].url }}" />
+            <ion-icon name="add"></ion-icon>
+          </button>
+          <button ion-button class="picture-button picture-2" margin-top>
+            <span>3</span>
+            <img *ngIf="authService.currentUser.pictures[2]"  src="{{ authService.currentUser.pictures[2].url }}" />
+            <ion-icon name="add"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <button ion-button class="picture-button picture-3">
+            <span>4</span>
+            <img *ngIf="authService.currentUser.pictures[3]"  src="{{ authService.currentUser.pictures[3].url }}" />
+            <ion-icon name="add"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button class="picture-button picture-4">
+            <span>5</span>
+            <img *ngIf="authService.currentUser.pictures[4]"  src="{{ authService.currentUser.pictures[4].url }}" />
+            <ion-icon name="add"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button class="picture-button picture-5">
+            <span>6</span>
+            <img *ngIf="authService.currentUser.pictures[5]"  src="{{ authService.currentUser.pictures[5].url }}" />
+            <ion-icon name="add"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- <ion-item>
+      <ion-label floating>Name</ion-label>
+      <ion-input type="text" name="name" [(ngModel)]="authService.currentUser.name" required minlenght="3"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Alter</ion-label>
+      <ion-input type="number" name="age" [(ngModel)]="authService.currentUser.age" required max="99" min="16" step="1"></ion-input>
+    </ion-item> -->
+      
+    <ion-item>
+      <ion-label floating>Über {{ authService.currentUser.name }}</ion-label>
+      <ion-textarea autoresize name="description" [(ngModel)]="authService.currentUser.description"></ion-textarea>
+    </ion-item>
+  
+
+<!-- 
+    <ion-item>
+      <ion-icon name="person" item-left></ion-icon>
+      </ion-input>
+    </ion-item> -->
+
+    <!-- <ion-item>
+      <ion-icon name="image" item-left></ion-icon>
+      <input type="file" accept="image/*" (change)="onPhoto($event)">
+    </ion-item> -->
+
+    <progress-bar *ngIf="uploadProgress" [progress]="uploadProgress"></progress-bar> 
+
+    <ion-fab right bottom>
+      <button ion-fab color="primary" [disabled]="profileForm.form.invalid" type="submit"><ion-icon name="checkmark"></ion-icon></button>
+    </ion-fab>
+  
+  </form>
+
+</ion-content>

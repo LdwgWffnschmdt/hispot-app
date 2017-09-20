@@ -1,6 +1,6 @@
 import { Chat, Message } from './../../models/models';
 import { Component, ViewChild, ElementRef, Renderer } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ModalController } from 'ionic-angular';
 
 import { AuthService } from './../../providers/auth.service';
 import { User } from "../../models/models";
@@ -8,6 +8,7 @@ import { User } from "../../models/models";
 import { Apollo, ApolloQueryObservable } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { ChatPage } from "../chat/chat";
+import { EditUserProfilePage } from "../edit-user-profile/edit-user-profile";
 
 const GetUserQuery = gql`
 query user($id: ID) {
@@ -49,12 +50,13 @@ export class UserProfilePage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     private apollo: Apollo,
+    public modalCtrl: ModalController,
     public element: ElementRef,
     public renderer: Renderer
   ) {
     this.placeholder = {
       name: "Benutzername",
-      description: "Eine lange und nicht unbedingt sinnvolle Beschreibung.",
+      description: "Eine lange und nicht unbedingt",
       age: 24,
       pictures: [
         { url: ""}
@@ -132,44 +134,17 @@ export class UserProfilePage {
 
   }
 
-  // onSubmit(event: Event): void {
-  //   event.preventDefault();
+  editUser(): void {
+    let modal = this.modalCtrl.create(EditUserProfilePage);
     
-  //   if (this.filePhoto) {
+    // modal.onDidDismiss((data) => {
+    //   if (data) {
+    //     console.log("data", data);
+    //     // this.currentLocation.feed.messages.push(data);
+    //     this.scrollToTop();
+    //   }
+    // });
 
-  //     let uploadTask = this.userService.uploadPhoto(this.filePhoto, this.currentUser.$key);
-
-  //     uploadTask.on('state_changed', (snapshot) => {
-
-  //       this.uploadProgress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-
-  //     }, (error: Error) => {
-  //       // catch error
-  //     }, () => {
-  //       this.editUser(uploadTask.snapshot.downloadURL);
-  //     });
-
-  //   } else {
-  //     this.editUser();
-  //   }
-
-  // }
-
-  // onPhoto(event): void {  
-  //   this.filePhoto = event.target.files[0];
-  // }
-
-  // private editUser(photoUrl?: string): void {
-  //   this.userService
-  //     .edit({
-  //       name: this.currentUser.name,
-  //       username: this.currentUser.username,
-  //       photo: photoUrl || this.currentUser.photo || ''
-  //     }).then(() => {
-  //       this.canEdit = false;
-  //       this.filePhoto = undefined;
-  //       this.uploadProgress = 0;
-  //     });
-  // }
-
+    modal.present();
+  }
 }

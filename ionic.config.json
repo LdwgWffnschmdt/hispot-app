@@ -1,8 +1,8 @@
 {
   "name": "hispot-app",
-  "app_id": "22432647",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
-  }
+  },
+  "app_id": "c2b00c3a"
 }

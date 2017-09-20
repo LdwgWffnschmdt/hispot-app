@@ -74,7 +74,7 @@ page-map {
     .hispot-text {
       mix-blend-mode: lighten;
       position: relative;
-      top: 15vh;
+      top: 33vh;
       width: 30vw;
     }
 
@@ -171,10 +171,10 @@ page-map {
         z-index: 10;
       }
       
-      &::before {
-        background: radial-gradient(circle, rgba(0,0,0,0) 0%, color($colors, primary) 85%);
-        opacity: 0;
-      }
+      // &::before {
+      //   background: radial-gradient(circle, rgba(0,0,0,0) 0%, color($colors, primary) 85%);
+      //   opacity: 0;
+      // }
       
       & > div {
         top: auto ! important;
@@ -194,6 +194,18 @@ page-map {
         background: none !important;
       }
 
+      // Buttons
+      .gm-style-mtc {
+        background: rgba(0, 0, 0, 0.2);
+      }
+      
+      .gmnoprint.gm-style-mtc {
+        margin-top: 60px ! important;
+
+        div {
+          background: rgba(0, 0, 0, 0.2) ! important;
+        }
+      }
     }
 
     .location {
@@ -488,13 +500,20 @@ page-map {
 /* LOGIN SCREEN */
 page-map.state-0 {
   ion-header {
+    transform: translateY(20vh) scale(2) ! important;
+    
     .hispot-button {
-      transform: translateY(5vh) scale(2) ! important;
+      animation: heartbeat 1.5s infinite;
       pointer-events: none;
     }
   }
 
   #map {
+    
+    .gmnoprint {
+      display: none;
+    }
+
     &::after {
       background: linear-gradient(314deg, color($colors, HiSpotBlau),
                                           color($colors, HiSpotFlieder),
@@ -830,5 +849,37 @@ page-map.no-location {
   
   ion-content > .scroll-content {
     overflow-y: hidden;
+  }
+}
+
+@keyframes heartbeat
+{
+  0%
+  {
+    transform: scale( .9);
+  }
+  
+  15%
+  {
+    transform: scale( 1);
+  }
+  
+  30%
+  {
+    transform: scale( .9);
+  }
+  
+  45%
+  {
+    transform: scale( 1);
+  }
+
+  60% {
+    transform: scale( .9);
+  }
+  
+  100%
+  {
+    transform: scale( .9);
   }
 }

@@ -25,19 +25,22 @@
     </div>
 
   </div>
-
+  
   <div class="messages-footer">
-
-    <ion-toolbar>
-      <ion-item no-lines>
-        <ion-input type="text" (keyup.enter)="sendMessage()" placeholder="Message..." [(ngModel)]="newMessage"></ion-input>
-        <button ion-button item-right (click)="sendMessage()">
-          <ion-icon name="send"></ion-icon>
-        </button>
-      </ion-item>
-    </ion-toolbar>
-
+    <form>
+      <ion-input
+        #chat_input
+        [(ngModel)]="message"
+        (keyup.enter)="sendMessage()"
+        (focus)="scrollToBottom()"
+        name="message"
+        placeholder="Nachricht schreiben">
+      </ion-input>
+    </form>
+    <button ion-fab mini color="primary" (click)="sendMessage($event)">
+      <ion-icon name="send" *ngIf="message != ''"></ion-icon>
+      <ion-icon name="camera" *ngIf="message == ''"></ion-icon>
+    </button>
   </div>
-
 
 </ion-content>
