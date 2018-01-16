@@ -1,7 +1,7 @@
 import { AuthService } from './../../providers/auth.service';
 import { Message, MessageType } from './../../models/models';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
 
 @Component({
   selector: 'page-status',

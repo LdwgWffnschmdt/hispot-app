@@ -14,6 +14,26 @@ export class ChatPage {
 
   message: string = "";
   
+  dummyIndex: number = -1;
+  dummyChatIndex: number = 0;
+
+  dummyChats = [
+    [
+      "Mojito",
+      "Echt, sind die wirklich so gut?",
+      "Das muss ich selber sehen.",
+      "Bin dabei, in 5 min an der Bar?",
+      "👌"
+    ],
+    [
+      "hey",
+      "leider nicht kreativ genug.",
+      "Nein warum 😃",
+      "😆😆",
+      "👌"
+    ]
+  ]
+
   @ViewChild(Content) content: Content;
   @ViewChild('chat_input') messageInput: TextInput;
   
@@ -52,6 +72,25 @@ export class ChatPage {
       
       this.chat.messages.push(message);
 
+      var answer = "Das hier ist eine einfache Antwort, die jedes Mal kommt.";
+
+      // No chat yet
+      if (this.dummyIndex == -1){
+        for (var i = 0; i < this.dummyChats.length; i++) {
+          var dummyChat = this.dummyChats[i];
+          
+          if (this.message.indexOf(dummyChat[0]) > -1) {
+            this.dummyIndex = i;
+            this.dummyChatIndex = 1;
+            answer = dummyChat[this.dummyChatIndex];
+          } 
+        }
+      }
+      else {
+        this.dummyChatIndex += 1;
+        if (this.dummyChats[this.dummyIndex][this.dummyChatIndex]) answer = this.dummyChats[this.dummyIndex][this.dummyChatIndex];
+      }
+
       this.message = "";
 
       this.messageInput.setFocus();
@@ -59,7 +98,9 @@ export class ChatPage {
 
       setTimeout(() => {
         var message = new Message();
-        message.content = "Das hier ist eine einfache Antwort, die jedes Mal kommt.";
+
+        message.content = answer;
+        
         message.type = MessageType.TEXT;
         message.sender = this.chat.user;
         message.timestamp = new Date(Date.now());
@@ -67,7 +108,7 @@ export class ChatPage {
         this.chat.messages.push(message);
 
         this.scrollToBottom();
-      }, 1000);
+      }, 1500);
     }
   }
 

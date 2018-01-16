@@ -11,7 +11,7 @@ export class LocationSwitcherComponent {
   currentLocation: Location;
   none: Location = new Location("0", "Keine Location");
 
-  constructor(private params: NavParams, public viewCtrl: ViewController) {
+  constructor(params: NavParams, public viewCtrl: ViewController) {
     this.locations = params.get('locations');
     this.currentLocation = params.get('currentLocation');
 

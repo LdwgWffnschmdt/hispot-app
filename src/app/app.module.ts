@@ -44,7 +44,7 @@ import { ApolloModule } from 'apollo-angular';
 import { MyApp } from './app.component';
 import { ShrinkingSegmentHeader } from '../components/shrinking-segment-header/shrinking-segment-header';
 
-const networkInterface = createNetworkInterface({ uri: 'https://hispot-server-segekjpsrd.now.sh/graphql' });
+const networkInterface = createNetworkInterface({ uri: 'https://hispot-server-tslvdyemoj.now.sh/graphql' });
 // const networkInterface = createNetworkInterface({ uri: 'http://localhost:3000/graphql' });
 
 networkInterface.use([{

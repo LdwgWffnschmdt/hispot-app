@@ -122,9 +122,10 @@ export class AuthService extends BaseService {
     return this.getUserFromID("0")
       .then((_user: User) => {
         console.log("User", _user);
-
+        
         // Save the resulted User in local storage
         this.currentUser = _user;
+        this.currentUser.pictures[0].url = "assets/profile.jpg";
 
         return _user != null;
       })

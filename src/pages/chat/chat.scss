@@ -10,7 +10,7 @@ page-chat {
   }
 
   .messages {
-    padding: 16px 0 50px;
+    padding: 16px 0;
 
     .message-box {
       position: relative;
@@ -19,9 +19,13 @@ page-chat {
       overflow: auto;
       margin-top: 2px;
       
-      transform: scale(0);
-      transform-origin: 0 0;
-      animation: bounce 500ms linear both;
+      transform: translateY(200px);
+      animation: chatMessage $animation-stack both;
+
+      @keyframes chatMessage { 
+        0% { transform: translateY(200px); opacity: 0; }
+        100% { transform: translateY(0); opacity: 1; } 
+      }
     
       &:last-of-type {
         margin-bottom: 10px;
@@ -33,7 +37,7 @@ page-chat {
         border-radius: 50%;
         position: absolute;
         bottom: 0;
-        left: 8px;
+        left: 10px;
         display: none;
       }
     
@@ -57,7 +61,7 @@ page-chat {
       &.TEXT {
   
         .message {
-          margin: 8px 18px;
+          margin: 10px 18px;
           font-size: 14px;
         }
   
@@ -106,7 +110,7 @@ page-chat {
           background: #fff;
           // background: color($colors, light, base);
           color: color($colors, dark, base);
-          margin-right: 8px;
+          margin-right: 10px;
           float: right;
           border-bottom-right-radius: 5px;
         }
@@ -123,6 +127,7 @@ page-chat {
         .chat-bubble {
           background: linear-gradient(to right, color($colors, secondary),
                                                 color($colors, secondaryDark));
+          color: #fff;
         }
       }
     }
@@ -142,7 +147,7 @@ page-chat {
     }
     
     .end {
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       
       &.mine {
         .chat-bubble {
@@ -168,52 +173,26 @@ page-chat {
         }
       }
     }
-
-    /*--------------------
-    Bounce
-    --------------------*/
-    @keyframes bounce { 
-      0% { transform: matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      4.7% { transform: matrix3d(0.45, 0, 0, 0, 0, 0.45, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      9.41% { transform: matrix3d(0.883, 0, 0, 0, 0, 0.883, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      14.11% { transform: matrix3d(1.141, 0, 0, 0, 0, 1.141, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      18.72% { transform: matrix3d(1.212, 0, 0, 0, 0, 1.212, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      24.32% { transform: matrix3d(1.151, 0, 0, 0, 0, 1.151, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      29.93% { transform: matrix3d(1.048, 0, 0, 0, 0, 1.048, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      35.54% { transform: matrix3d(0.979, 0, 0, 0, 0, 0.979, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      41.04% { transform: matrix3d(0.961, 0, 0, 0, 0, 0.961, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      52.15% { transform: matrix3d(0.991, 0, 0, 0, 0, 0.991, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      63.26% { transform: matrix3d(1.007, 0, 0, 0, 0, 1.007, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      85.49% { transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
-      100% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); } 
-    }
-    
   }
 
   .messages-footer {
     position: fixed;
     bottom: 0;
-    width: 100vw;
-    box-sizing: border-box;
-    padding: 8px;
+    width: 100%;
+  }
+
+  ion-footer {
+    form {
+      margin-right: 8px;
+    }
 
     ion-input {
-      position: absolute;
-      right: 8px;
-      bottom: 8px;
-      width: 70%;
       background: #fff;
-      padding: 0 40px 0 18px;
-      box-sizing: border-box;
+      padding: 0 0 0 16px;
+      margin: 8px;
       border-radius: 20px;
       box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.16), 0px 6px 10px 0px rgba(0, 0, 0, 0.1), 0px 1px 18px 0px rgba(0, 0, 0, 0.08);
     }
-
-    button.fab {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      // border-bottom-right-radius: 5px;
-    }
   }
+
 }

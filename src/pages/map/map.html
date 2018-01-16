@@ -6,7 +6,7 @@
   </defs>
 </svg>
 
-<ion-header no-border>
+<ion-header no-border [ngClass]="{'loading-location': loading}">
   
   <ion-navbar transparent #navbar>
   
@@ -24,6 +24,9 @@
 
   <div class="login">
     <img src="assets/Hi!Spot.svg" class="hispot-text"/>
+
+    <img src="assets/claim_white.svg" class="hispot-claim"/>
+
 <!-- 
     <ion-slides pager autoplay="5000">
       <ion-slide padding>
@@ -142,7 +145,43 @@
     </ion-card> 
     
     <div class="messages">
+       
+      <ion-card (click)="goToLocation(closeLocations[1])" class="stage2 image-background ad">
+        
+        <img src="https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyA7I5gFFrRO8VzqmDK4Jw6qle5TG2b3IiQ&maxwidth=600&photoreference=CmRaAAAAEYTkJrNFpdcr3G5e-5ELb-KSOUCpF6ghFW8iWVGgWEH37vUSCsqE0645kTz9CQKD5AcB0VtRD5tiQsKld1fwuyo0WpajmGq8H4yOXSYfHi5PK71KLVv2v2NK5C3bfxIGEhCeq65Q6F1oYXCZpH2Igf92GhRXaG9MQ8K9UTkp97hqJk1zfosnbg"> 
+        
+        <ion-item>
+          <ion-avatar item-start>
+             <img src="https://maps.googleapis.com/maps/api/place/photo?key=AIzaSyA7I5gFFrRO8VzqmDK4Jw6qle5TG2b3IiQ&maxwidth=600&photoreference=CmRaAAAAIqcIBBXp2aMM-QjgzYvbeSU4wSJ-Y6ZLXKpNxfaD2ic8EVFV_0g5oXdcJ3dMDaU79yCu8GgTIsvuroO71ioh_edFI2CEAvq213pEqrbWWoNiwRfv5M7vb3IB78lBSjBTEhBY79zTUdq5AE7h4LD5Ffl5GhRBX7rdKYiPzQMSqziezUasyCmAwg"> 
+          </ion-avatar>
+          <h2>{{ closeLocations[1].name }}</h2>
+          <p>Werbung</p>
+        </ion-item>
       
+        <ion-card-content>
+          <h3>Steinofenpizza ab 8€</h3>
+          <h4>Direkt im Bikini Berlin</h4>
+        </ion-card-content>
+
+      </ion-card> 
+
+      <ion-card class="stage1 ad" *ngIf="currentLocation.googlePlaceId != '0'">
+          
+        <ion-item (click)="goToLocation(currentLocation)">
+          <ion-avatar item-start>
+            <img [src]="currentLocation.pictures[0].url">
+          </ion-avatar>
+          <h2>{{ currentLocation.name }}</h2>
+          <p>Werbung</p>
+        </ion-item>
+      
+        <ion-card-content>
+          <h3><b>Happy Hour!</b></h3>
+          <p>Bis 22:00 kosten alle Cocktails nur 4,50€</p>
+        </ion-card-content>
+      
+      </ion-card>
+
       <ion-card *ngFor="let message of currentLocation.feed.messages | slice:0:10">
           
         <ion-item (click)="openProfile(message.sender)">
@@ -214,10 +253,11 @@
           <img [src]="chat.user.pictures[0].url || 'assets/images/no-photo.jpg'">
         </ion-avatar>
         <h2>{{ chat.user.name }}</h2>
-        <p *ngIf="chat.messages; else customMessage">{{ chat.messages[0].content }}</p>
-        <ng-template #customMessage>
-          <p>No messages</p>
-        </ng-template>
+          
+        <p *ngIf="chat.messages && chat.messages[chat.messages.length - 1].type == 'TEXT'">{{ chat.messages[chat.messages.length - 1].content }}</p>
+        <p *ngIf="chat.messages && chat.messages[chat.messages.length - 1].type == 'PICTURE'">📷 Foto</p>
+        <p *ngIf="!chat.messages">Keine Nachrichten</p>
+
         <ion-note item-end>
           {{ chat.messages[0].timestamp | date:'HH:mm' }}
         </ion-note>

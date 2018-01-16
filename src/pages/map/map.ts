@@ -16,7 +16,7 @@ import { Apollo, ApolloQueryObservable } from 'apollo-angular';
 import gql from 'graphql-tag';
 
 import { AuthService } from './../../providers/auth.service';
-import { Chat, User } from "../../models/models";
+import { Chat, User, Message, MessageType } from "../../models/models";
 import { ChatPage } from "../chat/chat";
 
 const GetLocationQuery = gql`
@@ -86,6 +86,9 @@ export class MapPage {
 
   loading: boolean = false;
 
+  stage1: boolean = false;
+  stage2: boolean = false;
+
   currentLocation: Location;
 
   mapInitialised: boolean = false;
@@ -96,9 +99,9 @@ export class MapPage {
   locationWatching: boolean = false;
   
   closeLocations: [Location] = [
-    new Location("ChIJPdTV4C5QqEcRYuaEK_x3_h8", "Zyankali Bar"),
-    new Location("ChIJ528Y3ddPqEcRpJK-keQ4D0A", "Junction Bar"),
-    new Location("ChIJvXT5xddPqEcRIwILgO_CnC0", "Mokkabar")
+    new Location("ChIJ-RAVYVVQqEcRPZ3e-XXyPbg", "Monkey Bar"),
+    new Location("ChIJm-D-mf9QqEcRApuySRsj4BQ", "L'Osteria Bikini Berlin"),
+    new Location("ChIJ-RAVYVVQqEcRIfxE6EjRZ38", "NENI Berlin")
   ]
 
   constructor(
@@ -186,6 +189,10 @@ export class MapPage {
     if (this.state == state || (state != 0 && !this.currentLocation)) return;
     console.log("Go to state " + state);
 
+    if (this.state == 0) {
+      this.map.setMapTypeId('hybrid');
+    }
+
     if (this.state == 2) {
       this.map.setCenter(this.locationMarker.getPosition());
       this.map.setZoom(19);
@@ -238,6 +245,17 @@ export class MapPage {
               this.currentLocation = response
               this.setState(1);
               this.hideLoading();
+
+
+              // setTimeout(() => {
+              //   this.stage1 = true;
+              //   this.scrollToTop();
+              // }, 10000);
+              
+              // setTimeout(() => {
+              //   this.stage2 = true;
+              //   this.scrollToTop();
+              // }, 15000);
             });
 
           // this.navCtrl.setRoot(MapPage);
@@ -308,8 +326,8 @@ export class MapPage {
     // this.geolocation.getCurrentPosition({ timeout: 30000 }).then((position) => {
       var position = {
         coords: {
-          latitude: 52.4916686397199,
-          longitude: 13.392747044563293,
+          latitude: 52.505548,
+          longitude: 13.337962,
           accuracy: 10
         }
       };
@@ -1523,8 +1541,107 @@ export class MapPage {
           }
         ], {name: 'Silver'});
       
-        // var styleDark = new google.maps.StyledMapType(
-        // , {name: 'Dark'});
+        var styleNewFlair = new google.maps.StyledMapType(
+        [
+          {
+            "elementType": "labels.icon",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "administrative",
+            "stylers": [
+              {
+                "saturation": -100
+              }
+            ]
+          },
+          {
+            "featureType": "landscape",
+            "stylers": [
+              {
+                "lightness": -40
+              }
+            ]
+          },
+          {
+            "featureType": "landscape.man_made",
+            "stylers": [
+              {
+                "saturation": 45
+              }
+            ]
+          },
+          {
+            "featureType": "landscape.natural",
+            "stylers": [
+              {
+                "saturation": -100
+              }
+            ]
+          },
+          {
+            "featureType": "poi",
+            "elementType": "geometry.fill",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "poi",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "poi.business",
+            "elementType": "labels.icon",
+            "stylers": [
+              {
+                "visibility": "on"
+              }
+            ]
+          },
+          {
+            "featureType": "road",
+            "stylers": [
+              {
+                "saturation": -70
+              },
+              {
+                "lightness": -40
+              }
+            ]
+          },
+          {
+            "featureType": "transit",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "water",
+            "stylers": [
+              {
+                "saturation": -100
+              },
+              {
+                "lightness": -65
+              }
+            ]
+          }
+        ]
+        , {name: 'New'});
         
         
         let mapOptions = {
@@ -1535,10 +1652,29 @@ export class MapPage {
           mapTypeControlOptions: {
             style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
             mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
-                    'styleFlieder', 'styleRot', 'styleBlau', 'styleDark', 'styleNight', 'styleSilver']
+                    'styleFlieder', 'styleRot', 'styleBlau', 'styleDark', 'styleNight', 'styleSilver', 'styleNewFlair']
           },
           disableDefaultUI: true,
-          mapTypeControl: true
+          mapTypeControl: true,
+          styles: [
+            {
+              "featureType": "poi",
+              "elementType": "labels",
+              "stylers": [
+                {
+                  "visibility": "off"
+                }
+              ]
+            },
+            {
+              "featureType": "poi",
+              "elementType": "labels.icon",
+              "stylers": [
+                {
+                  "visibility": "on"
+                }
+              ]
+            }]
         }
 
         this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
@@ -1549,7 +1685,8 @@ export class MapPage {
         this.map.mapTypes.set('styleDark', styleDark);
         this.map.mapTypes.set('styleNight', styleNight);
         this.map.mapTypes.set('styleSilver', styleSilver);
-        this.map.setMapTypeId('styleFlieder');
+        this.map.mapTypes.set('styleNewFlair', styleNewFlair);
+        this.map.setMapTypeId('satellite');
 
         this.locationMarker = new google.maps.Marker({
           position: latLng,
@@ -1654,7 +1791,7 @@ export class MapPage {
       // other map click event handlers from receiving the event.
       event.stop();
       
-      this.goToLocation(new Location(event.placeId, ""));
+      this.goToLocationId(event.placeId);
     }
   };
 
@@ -1742,6 +1879,10 @@ export class MapPage {
     })
   }
 
+  goToLocationId(id: string): void {
+    this.goToLocation(new Location(id, ""));
+  }
+
   goToLocation(location: Location): void {
     if (location.googlePlaceId != "0") {
       let modal = this.modalCtrl.create(LocationPage,
@@ -1782,6 +1923,10 @@ export class MapPage {
         this.content.scrollToTop(duration || 300);
       }
     }, 50);
+  }
+
+  getDate(): Date {
+    return new Date(Date.now());
   }
 
 }

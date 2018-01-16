@@ -13,6 +13,9 @@ page-map {
   }
 
   ion-header {
+    will-change: transform;
+    transition: transform $animation-stack;
+
     ion-navbar {
       position: fixed;
     }
@@ -71,12 +74,23 @@ page-map {
     overflow-y: hidden;
     background: transparent;
 
-    .hispot-text {
-      mix-blend-mode: lighten;
+    .hispot-text, .hispot-claim {
+      will-change: opacity;
+      transition: opacity $animation-stack;
       position: relative;
-      top: 33vh;
-      width: 30vw;
+      left: 2.5vw;
     }
+
+    .hispot-text {
+      top: 33.5vh;
+      height: 40px;
+    }
+
+    .hispot-claim {
+      top: 34.5vh;
+      height: 30px;
+    }
+
 
     & > ion-slides {
       height: 100vh ! important;
@@ -157,6 +171,36 @@ page-map {
       will-change: transform;
       transform: translateZ(0);
       
+      &::after {
+        background: linear-gradient(314deg, color($colors, HiSpotBlau),
+                                            color($colors, HiSpotFlieder),
+                                            color($colors, HiSpotRot),
+                                            color($colors, HiSpotFlieder),
+                                            color($colors, HiSpotBlau));
+        background-size: 1000% 1000%;
+        mix-blend-mode: color;
+
+        background-position: 5% 25%;
+        
+        animation: BackgroundGradient 30s ease infinite;
+        
+        @-webkit-keyframes BackgroundGradient {
+            0%{background-position:0% 5%}
+            50%{background-position:100% 96%}
+            100%{background-position:0% 5%}
+        }
+        @-moz-keyframes BackgroundGradient {
+            0%{background-position:0% 5%}
+            50%{background-position:100% 96%}
+            100%{background-position:0% 5%}
+        }
+        @keyframes BackgroundGradient { 
+            0%{background-position:0% 5%}
+            50%{background-position:100% 96%}
+            100%{background-position:0% 5%}
+        }
+      }
+
       &::after,
       &::before {
         content: "";
@@ -312,20 +356,116 @@ page-map {
     margin-top: 316px;
     padding-top: 16px;
     
+    ion-card {
+      transform: translateY(-200px);
+      transform-origin: 0 0;
+      animation: bounce $animation-stack both;
+      
+      &.image-background {
+        position: relative;
+        text-align: center;
+        color: #fff;
+
+        ion-item {
+          position: absolute;
+          top: 0;
+          width: 100%;
+          color: #fff;
+          background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0.2) 30%,rgba(0,0,0,0) 100%) ! important;
+
+          p {
+            color: rgba(255, 255, 255, .8);
+          }
+        }
+
+        &:before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, .2);
+        }
+        
+        ion-card-content {
+          position: absolute;
+          top: 36%;
+          width: 100%;
+          
+          h3 {
+            font-size: 2.0em;
+            font-weight: bold;
+            color: #fff;
+          }
+        
+          h4 {
+            font-size: 1.0em;
+            color: #fff;
+          }
+
+        }
+
+        &.ad:after {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          opacity: .8;
+        }
+      }
+
+      &.ad {
+        background: #fffdf7;
+
+        ion-item {
+          background: none;
+        }
+
+        // &:after {
+        //   content: "WERBUNG";
+        //   float: right;
+        //   margin: -6px 10px 6px 0;
+        //   font-size: 0.75em;
+        //   font-weight: bold;
+        //   opacity: .4;
+        // }
+      }
+
+      &.stage1 {
+        position: absolute;
+        animation-delay: 10s;
+      }
+
+      &.stage2 {
+        position: absolute;
+        animation-delay: 15s;
+      }
+
+      /*--------------------
+      Bounce
+      --------------------*/
+      @keyframes bounce { 
+        0% { transform: translateY(-200px); opacity: 0; }
+        100% { transform: translateY(0); opacity: 1; position: relative; } 
+      }
+    }
+
     & > ion-card:first-of-type {
       border-radius: 30px;
     }
 
     ion-col {
+      display: none;
       padding: 12px ! important;
       text-align: center;
-      background: linear-gradient(to right, color($colors, primary),
-                                            color($colors, tertiary));
+      background: linear-gradient(to right, color($colors, secondary),
+                                            color($colors, secondaryDark));
       background-size: 100vw;
       position: relative;
       overflow: hidden;
 
       img {
+        display: none;
         position: absolute;
         left: 0;
         // top: -60%;
@@ -339,7 +479,9 @@ page-map {
       }
 
       &:last-of-type {
-        background: #333;
+        background: linear-gradient(to right, color($colors, primary),
+                                              color($colors, tertiary));
+        background-size: 100vw;
       }
 
       span {
@@ -469,6 +611,14 @@ page-map {
     .fixed-content ion-fab:after {
       opacity: 1;
     }
+    
+    .hispot-button {
+      animation: heartbeat 1.5s infinite;
+    }
+    
+    .hispot-text, .hispot-claim {
+      opacity: 0;
+    }
   }
   
   .error {
@@ -500,11 +650,14 @@ page-map {
 /* LOGIN SCREEN */
 page-map.state-0 {
   ion-header {
-    transform: translateY(20vh) scale(2) ! important;
+    transform: translateY(20vh) scale(2);
     
     .hispot-button {
-      animation: heartbeat 1.5s infinite;
       pointer-events: none;
+    }
+
+    &.loading-location {
+      transform: translateY(40vh) scale(2);
     }
   }
 
@@ -512,34 +665,6 @@ page-map.state-0 {
     
     .gmnoprint {
       display: none;
-    }
-
-    &::after {
-      background: linear-gradient(314deg, color($colors, HiSpotBlau),
-                                          color($colors, HiSpotFlieder),
-                                          color($colors, HiSpotRot),
-                                          color($colors, HiSpotFlieder),
-                                          color($colors, HiSpotBlau));
-      background-size: 1000% 1000%;
-      mix-blend-mode: color;
-      
-      animation: BackgroundGradient 30s ease infinite;
-      
-      @-webkit-keyframes BackgroundGradient {
-          0%{background-position:0% 5%}
-          50%{background-position:100% 96%}
-          100%{background-position:0% 5%}
-      }
-      @-moz-keyframes BackgroundGradient {
-          0%{background-position:0% 5%}
-          50%{background-position:100% 96%}
-          100%{background-position:0% 5%}
-      }
-      @keyframes BackgroundGradient { 
-          0%{background-position:0% 5%}
-          50%{background-position:100% 96%}
-          100%{background-position:0% 5%}
-      }
     }
 
   }
@@ -568,9 +693,9 @@ page-map.state-1 {
     #map {
       height: 150px;
 
-      &::after {
-        opacity: 0;
-      }
+      // &::after {
+      //   opacity: 0;
+      // }
 
       &::before {
         opacity: 1;
@@ -605,9 +730,9 @@ page-map.state-2 {
     #map {
       height: 100vh;
 
-      &::after {
-        opacity: 0;
-      }
+      // &::after {
+      //   opacity: 0;
+      // }
     }
 
     .location {
@@ -752,9 +877,9 @@ page-map.state-5 {
     #map {
       height: 150px;
 
-      &::after {
-        opacity: 0;
-      }
+      // &::after {
+      //   opacity: 0;
+      // }
 
       &::before {
         opacity: 1;
@@ -794,9 +919,9 @@ page-map.state-6 {
     #map {
       height: 150px;
 
-      &::after {
-        opacity: 0;
-      }
+      // &::after {
+      //   opacity: 0;
+      // }
 
       &::before {
         opacity: 1;
