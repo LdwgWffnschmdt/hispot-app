@@ -1,8 +1,6 @@
 # hispot-app
 
-<img src="./Screenshots/Main.png" height="300">
-<img src="./Screenshots/Karte.png" height="300">
-<img src="./Screenshots/Messages.png" height="300">
+<img src="./Screenshots/Main.png" height="300"> <img src="./Screenshots/Karte.png" height="300"> <img src="./Screenshots/Messages.png" height="300">
 
 Functional prototype for a cross-platform location based dating app using [Ionic](https://ionicframework.com/). It communicates with a [node.js server](https://github.com/LdwgWffnschmdt/hispot-server) via [GraphQL](https://graphql.org/).
 
